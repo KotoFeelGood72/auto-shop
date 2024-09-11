@@ -1,0 +1,42 @@
+$point_1: 1200px;
+$point_2: 1024px;
+$point_3: 1023px;
+$point_4: 768px;
+$point_5: 640px;
+$point_6: 480px;
+$point_7: 375px;
+$point_8: 320px;
+
+$page_width: 174.8rem;
+
+$white: #fff;
+$black: #000;
+$color_text_base: $black;
+$body_bg: $white;
+$dark: #4c5153;
+
+$header: 18.3rem;
+$footer: 28.8rem;
+
+$font_path: "@/assets/fonts/";
+
+$font_1: "Montserrat-Light";
+$font_2: "Montserrat-Regular";
+$font_3: "Montserrat-Medium";
+$font_4: "Montserrat-SemiBold";
+$font_5: "Montserrat-Bold";
+
+$font_size_base: 2rem;
+
+.m10 {
+  margin: 5rem 0;
+}
+.p10 {
+  padding: 5rem 0;
+}
+
+.container {
+  max-width: $page_width;
+  padding: 0 2rem;
+  margin: 0 auto;
+}
