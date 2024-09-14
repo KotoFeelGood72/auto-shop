@@ -201,6 +201,7 @@
         </div>
       </div>
     </section>
+    <Action />
   </div>
 </template>
 
@@ -213,6 +214,7 @@ import SortDropdown from "~/components/SortDropdown.vue";
 import Pagination from "~/components/Pagination.vue";
 import TimeSelect from "~/components/TimeSelect.vue";
 import Accardion from "~/components/Accardion.vue";
+import Action from "~/components/Action.vue";
 
 const options = ["Опция 1", "Опция 2", "Опция 3", "Опция 4"];
 
