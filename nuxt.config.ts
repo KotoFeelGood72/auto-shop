@@ -20,5 +20,9 @@ export default defineNuxtConfig({
     "nuxt-swiper",
     "@pinia/nuxt",
     "@pinia-plugin-persistedstate/nuxt",
+    "vue-yandex-maps/nuxt"
   ],
+  yandexMaps: {
+    apikey: 'de0ee812-515f-4988-a580-639be65741a6',
+  },
 });
