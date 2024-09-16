@@ -44,20 +44,17 @@ const selectOption = (option: string) => {
 
 <style scoped lang="scss">
 .custom-select {
+  width: 100%;
   position: relative;
-  width: 200px;
-  font-family: Arial, sans-serif;
 }
 
 .select-box {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  border: 1px solid #ccc;
+  @include flex-space;
+  border: 0.1rem solid #cbcbcb;
+  border-radius: 1rem;
+  font-size: 1.6rem;
+  padding: 1.6rem 1.6rem;
   cursor: pointer;
-  background-color: #fff;
-  border-radius: 4px;
 }
 
 .chevron {

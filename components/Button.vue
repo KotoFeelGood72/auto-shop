@@ -23,4 +23,19 @@ const sendEvent = () => {
 };
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.button {
+  background-color: $lblue;
+  color: $white;
+  font-size: 1.4rem;
+  padding: 1.2rem 2.1rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  font-family: $font_4;
+  transition: all 0.3s ease-in-out;
+  @include flex-center;
+  &:hover {
+    background-color: $blue;
+  }
+}
+</style>

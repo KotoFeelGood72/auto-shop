@@ -12,7 +12,7 @@ import { computed, defineProps, defineEmits } from "vue";
 const props = withDefaults(
   defineProps<{
     type?: string;
-    modelValue: string;
+    modelValue?: string;
     place?: string;
   }>(),
   {
@@ -33,10 +33,12 @@ const localValue = computed({
 <style scoped lang="scss">
 input {
   @include app;
-  border: 0.1rem solid #b2b2b2;
+  border: 0.1rem solid #cbcbcb;
   font-size: 1.6rem;
   color: $dark;
-  padding: 1.4rem 1.5rem;
+  padding: 1.7rem 1.6rem;
   width: 100%;
+  border-radius: 1rem;
+  background-color: $white;
 }
 </style>

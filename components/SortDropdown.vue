@@ -1,7 +1,13 @@
 <template>
-  <div class="sort-dropdown">
+  <div class="sort-dropdown" :class="[{ isOpen: isOpen }]">
     <div class="sort-header" @click="toggleDropdown">
-      <Icon name="line-md:arrow-up-down" class="sort-icon" />
+      <div class="sort_icon">
+        <Icon
+          name="fluent:arrow-sort-16-regular"
+          class="sort-icon"
+          :size="30"
+        />
+      </div>
       <span>{{ selectedOption?.label || options[0].label }}</span>
     </div>
     <ul v-if="isOpen" class="sort-options">
@@ -23,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 
 const options = ref([
   { label: "По дате", value: "date" },
@@ -37,63 +43,80 @@ const options = ref([
 const selectedOption = ref(options.value[0]);
 const isOpen = ref(false);
 
+// Функция для переключения выпадающего списка
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
 };
 
-const selectOption = (option) => {
+// Функция для выбора опции
+const selectOption = (option: any) => {
   selectedOption.value = option;
   isOpen.value = false;
 };
+
+// Функция для закрытия dropdown при клике вне области
+const handleClickOutside = (event: MouseEvent) => {
+  const dropdown = document.querySelector(".sort-dropdown");
+  if (dropdown && !dropdown.contains(event.target as Node)) {
+    isOpen.value = false;
+  }
+};
+
+// Добавляем обработчик события при монтировании компонента
+onMounted(() => {
+  document.addEventListener("click", handleClickOutside);
+});
+
+// Удаляем обработчик при размонтировании компонента
+onBeforeUnmount(() => {
+  document.removeEventListener("click", handleClickOutside);
+});
 </script>
 
 <style scoped lang="scss">
 .sort-dropdown {
   position: relative;
-  width: 200px;
-  font-family: Arial, sans-serif;
+  min-width: 23rem;
 
   .sort-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px;
-    background-color: #f8f8f8;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    @include flex-end;
+    color: $lblue;
     cursor: pointer;
-  }
-
-  .sort-icon {
-    margin-right: 10px;
+    gap: 1rem;
+    font-size: 1.8rem;
+    font-family: $font_4;
   }
 
   .sort-options {
     position: absolute;
+    top: calc(100% + 2rem);
+    left: 0;
     width: 100%;
-    margin-top: 5px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: #fff;
-    z-index: 10;
+    background-color: $white;
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 0.1rem solid #e9e9e9;
   }
 
   .sort-options li {
-    padding: 10px;
+    font-size: 1.4rem;
+    padding: 1rem 2.3rem;
     cursor: pointer;
-    display: flex;
-    justify-content: space-between;
+    font-family: $font_3;
+    &:not(:last-child) {
+      border-bottom: 0.1rem solid #e9e9e9;
+    }
     &:hover {
-      background-color: #f0f0f0;
+      color: $lblue;
     }
   }
 
   .selected {
-    background-color: #e0f7fa;
+    color: $lblue;
   }
+}
 
-  .check-icon {
-    margin-left: 10px;
-  }
+.sort_icon {
+  @include flex-center;
 }
 </style>

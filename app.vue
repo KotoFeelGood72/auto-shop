@@ -22,23 +22,23 @@
 
 html {
   height: 100%;
-  font: 400 calc(100vw / 1920 * 10) / 1.33 $font_1;
+  font: 400 calc(100vw / 1440 * 10) / 1.33 $font_1;
 
   @include bp($point_2) {
     font-size: 10px;
   }
-  &::-webkit-scrollbar-track {
-    background-color: $black;
-  }
+  // &::-webkit-scrollbar-track {
+  //   background-color: $black;
+  // }
 
-  &::-webkit-scrollbar {
-    width: 0.6rem;
-    background-color: $black;
-  }
+  // &::-webkit-scrollbar {
+  //   width: 1rem;
+  //   background-color: $black;
+  // }
 
-  &::-webkit-scrollbar-thumb {
-    background-color: $black;
-  }
+  // &::-webkit-scrollbar-thumb {
+  //   background-color: $black;
+  // }
 }
 
 body {
@@ -50,9 +50,9 @@ body {
   -webkit-text-size-adjust: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: $body_bg;
+  background: $ulight;
   overflow-x: hidden;
-  color: $dark;
+  color: $txt;
 
   @supports (display: grid) {
     display: block;
@@ -62,7 +62,7 @@ body {
 a {
   text-decoration: none;
   transition: all 0.3s ease;
-  color: $dark;
+  color: $txt;
 
   &:hover,
   &:focus {
