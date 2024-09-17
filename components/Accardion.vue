@@ -3,7 +3,12 @@
     <div class="accordion-item" v-for="(item, index) in items" :key="index">
       <div class="accordion-header" @click="toggleItem(index)">
         <span>{{ item.question }}</span>
-        <span class="icon">{{ activeIndex === index ? "-" : "+" }}</span>
+        <div class="accordion-icon">
+          <Icon
+            :size="40"
+            :name="activeIndex === index ? 'ic:round-minus' : 'ic:round-plus'"
+          />
+        </div>
       </div>
       <div v-if="activeIndex === index" class="accordion-body">
         <p>{{ item.answer }}</p>
@@ -34,15 +39,13 @@ const items = ref([
       "Для покупки автомобиля вам потребуется выполнить несколько шагов...",
   },
   {
-    question: "Если я соберусь покупать машину, что для этого нужно??",
+    question: "Если я соберусь покупать машину, что для этого нужно?",
     answer: "Процедура покупки автомобиля включает в себя...",
   },
 ]);
 
-// Состояние для хранения активного индекса
 const activeIndex = ref<number | null>(null);
 
-// Функция для переключения активного элемента
 const toggleItem = (index: number) => {
   activeIndex.value = activeIndex.value === index ? null : index;
 };
@@ -50,29 +53,44 @@ const toggleItem = (index: number) => {
 
 <style scoped lang="scss">
 .accordion {
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .accordion-item {
-  border-bottom: 1px solid #ddd;
-  cursor: pointer;
+  background-color: $white;
+  padding: 2rem 3rem;
+  border-radius: 1rem;
+  user-select: none;
+
+  .accordion-header {
+    @include flex-space;
+    cursor: pointer;
+
+    span {
+      font-size: 2rem;
+      font-family: $font_3;
+    }
+
+    .accordion-icon {
+      color: $lblue;
+      font-size: 2rem;
+    }
+  }
+
+  .accordion-body {
+    padding-top: 1rem;
+  }
 }
 
-.accordion-header {
-  display: flex;
-  justify-content: space-between;
-  padding: 15px;
-  background-color: #f9f9f9;
-  font-weight: bold;
+.accordion-icon {
+  @include flex-center;
 }
 
 .accordion-body {
-  padding: 15px;
-  background-color: #fff;
-}
-
-.icon {
-  font-size: 18px;
+  p {
+    font-size: 1.6rem;
+  }
 }
 </style>

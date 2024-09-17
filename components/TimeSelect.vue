@@ -1,6 +1,10 @@
 <template>
   <div class="time-selects">
-    <div class="select-box" @click="toggleDropdown('start')">
+    <div
+      class="select-box"
+      @click="toggleDropdown('start')"
+      :class="{ active: isDropdownOpen === 'start' }"
+    >
       <p>{{ startTime || "С " + availableStartTimes[0] }}</p>
       <Icon name="fluent:chevron-down-28-regular" class="icon" :size="26" />
       <ul v-if="isDropdownOpen === 'start'" class="dropdown">
@@ -14,7 +18,11 @@
       </ul>
     </div>
 
-    <div class="select-box" @click="toggleDropdown('end')">
+    <div
+      class="select-box"
+      :class="{ active: isDropdownOpen === 'end' }"
+      @click="toggleDropdown('end')"
+    >
       <p>
         {{ endTime || "До " + availableEndTimes[availableEndTimes.length - 1] }}
       </p>
@@ -108,13 +116,41 @@ const selectEndTime = (time: string) => {
     cursor: pointer;
     font-size: 1.4rem;
     font-family: $font_3;
+
+    &.active {
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+      ul {
+        border-top: 0.1rem solid #dfdfdf;
+      }
+    }
   }
 }
 
 .dropdown {
   position: absolute;
+  left: 0;
   top: calc(100%);
   background-color: #efefef;
+  width: 100%;
+  border-radius: 1rem;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  max-height: 15rem;
+  overflow-y: auto;
+  li {
+    font-size: 1.4rem;
+    padding: 0.4rem 1rem;
+    cursor: pointer;
+    font-family: $font_3;
+    transition: all 0.3s ease-in-out;
+    &:not(:last-child) {
+      border-bottom: 0.1rem solid #e9e9e9;
+    }
+    &:hover {
+      color: $lblue;
+    }
+  }
 }
 
 .icon {

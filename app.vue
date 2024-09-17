@@ -89,4 +89,14 @@ a {
 .fade-leave-to {
   opacity: 0;
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 3.2rem;
+  font-family: $font_5;
+}
 </style>

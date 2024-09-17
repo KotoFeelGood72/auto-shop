@@ -107,13 +107,13 @@
               <Button name="Отправить" />
               <div class="forms_social">
                 <a href="/" target="_blank">
-                  <img src="@/assets/img/form-tg.svg" alt="" />
+                  <img src="@/assets/img/form-tg.svg" alt="" class="full" />
                 </a>
                 <a href="/" target="_blank">
-                  <img src="@/assets/img/form-wt.svg" alt="" />
+                  <img src="@/assets/img/form-wt.svg" alt="" class="full" />
                 </a>
                 <a href="/" target="_blank">
-                  <img src="@/assets/img/form-vr.svg" alt="" />
+                  <img src="@/assets/img/form-vr.svg" alt="" class="full" />
                 </a>
               </div>
             </div>
@@ -166,14 +166,14 @@
           <div class="spectr_grid">
             <div class="spectr_item">
               <div class="spectr_img">
-                <img src="@/assets/img/spectr-1.png" alt="" />
+                <img src="@/assets/img/spectr-1.png" class="full" alt="" />
               </div>
               <p>Поиск и подбор автомобиля</p>
               <span>Профессиональные рекомендации по выбору автомобиля</span>
             </div>
             <div class="spectr_item">
               <div class="spectr_img">
-                <img src="@/assets/img/spectr-2.png" alt="" />
+                <img src="@/assets/img/spectr-2.png" class="full" alt="" />
               </div>
               <p>Доставка в Россию из Кореи</p>
               <span
@@ -183,7 +183,7 @@
             </div>
             <div class="spectr_item">
               <div class="spectr_img">
-                <img src="@/assets/img/spectr-3.png" alt="" />
+                <img src="@/assets/img/spectr-3.png" class="full" alt="" />
               </div>
               <p>Таможенное оформление</p>
               <span
@@ -397,13 +397,15 @@ const handlePageChange = (page: number) => {
 .forms__w {
   @include flex-start;
   gap: 2.1rem;
+  margin-bottom: 5rem;
 }
 
 .forms__main {
   background-color: $dark;
   color: $white;
   border-radius: 2rem;
-  padding: 3rem 5.1rem 5.6rem 2rem;
+  padding: 3.5rem 5.1rem 3.5rem 5.1rem;
+  flex-grow: 1;
 
   h3 {
     margin-bottom: 2.5rem;
@@ -422,5 +424,144 @@ const handlePageChange = (page: number) => {
 }
 .forms_bottom {
   @include flex-start;
+  margin-bottom: 2rem;
+  gap: 3rem;
+  :deep(.button) {
+    padding: 1.4rem 10.8rem;
+    font-size: 1.6rem;
+  }
+}
+
+.forms_social {
+  @include flex-start;
+  gap: 1.8rem;
+  a {
+    width: 4.9rem;
+    height: 4.9rem;
+    @include flex-center;
+    transition: all 0.3s ease-in-out;
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+}
+
+.services {
+  background-color: $light;
+  max-width: 51.8rem;
+  border-radius: 2rem;
+  padding: 3rem 3.2rem;
+  max-height: 50rem;
+
+  h3 {
+    font-size: 3.2rem;
+    font-family: $font_5;
+    color: $dark;
+    margin-bottom: 2rem;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    li {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      p {
+        color: $blue;
+        font-family: $font_5;
+        font-size: 1.8rem;
+      }
+      span {
+        font-size: 1.6rem;
+      }
+    }
+  }
+}
+
+.forms_notice {
+  @include flex-start;
+  gap: 0.5rem;
+  .forms_notice__icon {
+    width: 1.8rem;
+    height: 1.8rem;
+    @include flex-center;
+  }
+  span {
+    font-size: 1.3rem;
+  }
+}
+
+.spectr_head {
+  margin-bottom: 3.5rem;
+  h4 {
+    font-size: 3.2rem;
+    font-family: $font_5;
+    margin-bottom: 1rem;
+  }
+  p {
+    font-size: 2.4rem;
+  }
+}
+
+.spectr_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
+  gap: 2.5rem;
+}
+
+.spectr_main {
+  margin-bottom: 6rem;
+}
+
+.spectr_item {
+  background-color: $light;
+  border-radius: 2rem;
+  padding: 2rem 1.5rem 2.5rem 1.5rem;
+  text-align: center;
+  min-height: 26rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  p {
+    font-size: 2rem;
+    font-family: $font_4;
+    margin-bottom: 1rem;
+  }
+  span {
+    font-size: 1.6rem;
+    display: block;
+    line-height: 1.8rem;
+  }
+
+  &:nth-child(1) {
+    .spectr_img {
+      max-width: 18.9rem;
+    }
+  }
+  &:nth-child(2) {
+    .spectr_img {
+      max-width: 25.6rem;
+    }
+  }
+  &:nth-child(3) {
+    .spectr_img {
+      max-width: 13.9rem;
+    }
+  }
+}
+
+.spectr_img {
+  @include flex-center;
+  margin: 0 auto 1.6rem auto;
+  height: 11.9rem;
+}
+
+.faq_main {
+  h5 {
+    margin-bottom: 2.5rem;
+  }
 }
 </style>
