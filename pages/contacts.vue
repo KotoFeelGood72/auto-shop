@@ -52,25 +52,37 @@
               width="100%"
               height="500px"
             >
-              <!-- Добавляем слой YMapDefaultFeaturesLayer для объектов -->
               <yandex-map-default-features-layer />
-
               <yandex-map-default-scheme-layer />
               <yandex-map-controls :settings="{ position: 'right' }">
                 <yandex-map-zoom-control />
               </yandex-map-controls>
-
-              <yandex-map-marker
+              <yandex-map-controls :settings="{ position: 'left' }">
+                <yandex-map-geolocation-control />
+              </yandex-map-controls>
+              <yandex-map-controls
+                :settings="{ position: 'bottom left', orientation: 'vertical' }"
+              >
+                <yandex-map-open-maps-button
+                  :settings="{ title: 'Найти нас на карте' }"
+                />
+              </yandex-map-controls>
+              <!-- Добавляем кликабельные маркеры -->
+              <YandexMapDefaultMarker
                 v-for="(marker, index) in markers"
                 :key="index"
                 :settings="marker"
+                @click="selectMarker(marker)"
               >
-                <div class="marker">
-                  <p>Нипотека AUTO</p>
-                  <img src="/img/logo.png" alt="" />
-                </div>
-              </yandex-map-marker>
+              </YandexMapDefaultMarker>
             </yandex-map>
+
+            <!-- Отображение информации по клику на маркер -->
+            <div v-if="selectedMarker" class="route-info">
+              <h3>Как доехать:</h3>
+              <p>{{ selectedMarker.subtitle }}</p>
+              <p>{{ selectedMarker.directions }}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -84,64 +96,153 @@ import type { YMap } from "@yandex/ymaps3-types";
 import {
   YandexMap,
   YandexMapDefaultSchemeLayer,
-  YandexMapMarker,
+  YandexMapOpenMapsButton,
+  YandexMapDefaultMarker,
   YandexMapZoomControl,
   YandexMapControls,
   YandexMapDefaultFeaturesLayer,
+  YandexMapGeolocationControl,
 } from "vue-yandex-maps";
 
 // Инициализация карты
 const map = shallowRef<null | YMap>(null);
 
-// По умолчанию отображаем Краснодар
+// Центр карты по умолчанию (Краснодар)
 const mapCenter = ref<[number, number]>([38.97695, 45.03547]);
 
-// Данные для маркеров
+// Маркеры с координатами, названиями и информацией о том, как доехать
 const markers = ref([
   {
     coordinates: [132.198484, 43.355023],
     title: "Артем",
     subtitle: `г. Артем, ул. ?, 64 — 301 офис; 3 этаж`,
+    directions: "Можно доехать на автобусе №5, либо на личном авто.",
     color: "#008001",
   },
   {
     coordinates: [38.97437, 45.047208],
     title: "Краснодар",
     subtitle: `г. Краснодар, улица Бабушкина 295`,
+    directions: "Можно доехать на маршрутке №123, либо на такси.",
     // color: "#008001",
   },
 ]);
 
-// Функция для смены координат карты
+// Реактивное свойство для выбранного маркера
+const selectedMarker = ref<any>(null);
+
+// Функция для смены центра карты
 function setMapCenter(newCenter: [number, number]) {
   mapCenter.value = newCenter;
+}
+
+// Функция для выбора маркера и отображения информации о маршруте
+function selectMarker(marker: any) {
+  selectedMarker.value = marker;
 }
 </script>
 
 <style scoped lang="scss">
-.address-icon {
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
-  vertical-align: middle;
+.contacts_main {
+  @include flex-start;
+  gap: 5rem;
+  & > div {
+    width: 45%;
+  }
+}
+
+.contacts_main__w {
+  padding: 6rem 0;
+}
+
+.contacts__content {
+  padding-top: 2.9rem;
+  ul {
+    & > li {
+      cursor: pointer;
+      & > p {
+        font-size: 2.2rem;
+        color: $lblue;
+        font-family: $font_4;
+        margin-bottom: 1rem;
+      }
+
+      span {
+        font-size: 1.8rem;
+      }
+      &:not(:last-child) {
+        margin-bottom: 3.5rem;
+      }
+
+      ul {
+        @include flex-start;
+        gap: 3.7rem;
+        li {
+          margin: 0 !important;
+        }
+        a {
+          @include flex-start;
+          gap: 1rem;
+          font-size: 1.8rem;
+          font-family: $font_3;
+          transition: all 0.3s ease-in-out;
+          &:hover {
+            color: $lblue;
+          }
+        }
+      }
+    }
+  }
+}
+
+.item__icon {
+  @include flex-center;
+  width: 2.6rem;
+  height: 2.6rem;
 }
 
 .marker {
   @include flex-center;
-  gap: 1rem;
-  background-color: #c1ebf5b2;
-  padding: 1rem 2rem;
-  border-radius: 1rem;
-  backdrop-filter: blur(2rem);
+  flex-direction: column;
+  background-color: $lblue;
+  border-radius: 100%;
+  gap: 0.2rem;
+  font-family: $font_3;
+  color: $white;
+  width: 3rem;
+  height: 3rem;
+  position: relative;
+  &:before {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 1.5rem;
+    border-right: 0.3rem solid $lblue;
+    content: "";
+  }
+  &:after {
+    position: absolute;
+    top: calc(100% + 1.5rem);
+    left: 50.5%;
+    transform: translateX(-50%);
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: $blue;
+    border-radius: 100px;
+    // background-color: red;
+    content: "";
+  }
   p {
-    font-size: 1.4rem;
-    font-family: $font_2;
-    font-weight: 600;
+    font-size: 1.6rem;
   }
   img {
-    width: 5rem;
-    height: 5rem;
-    object-fit: contain;
+    width: 2rem;
   }
+}
+
+.contacts_map {
+  border-radius: 1rem;
+  overflow: hidden;
 }
 </style>

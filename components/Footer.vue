@@ -20,11 +20,9 @@
             <p>Пн-Вс: 09:00-22:00</p>
           </div>
           <div class="footer_payment__list">
-            <img
-              :src="'/img/payment-' + i + '.png'"
-              v-for="i in 4"
-              :key="'paymentsMetod-item-' + i"
-            />
+            <div v-for="i in 4" :key="'paymentsMetod-item-' + i">
+              <img :src="'/img/payment-' + i + '.png'" class="full" />
+            </div>
           </div>
         </div>
         <div class="footer_col__nav">
@@ -45,22 +43,22 @@
           <ul class="footer_socials__list">
             <li>
               <a target="_blank" href="#">
-                <img src="/img/footer-social-1.png" alt="" />
+                <img src="/img/footer-social-1.png" alt="" class="full" />
               </a>
             </li>
             <li>
               <a target="_blank" href="#">
-                <img src="/img/footer-social-2.png" alt="" />
+                <img src="/img/footer-social-2.png" alt="" class="full" />
               </a>
             </li>
             <li>
               <a target="_blank" href="#">
-                <img src="/img/footer-social-3.png" alt="" />
+                <img src="/img/footer-social-3.png" alt="" class="full" />
               </a>
             </li>
             <li>
               <a target="_blank" href="#">
-                <img src="/img/footer-social-4.png" alt="" />
+                <img src="/img/footer-social-4.png" alt="" class="full" />
               </a>
             </li>
           </ul>
@@ -83,4 +81,131 @@
 
 <script setup lang="ts"></script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.footer {
+  background-color: $white;
+}
+
+.footer_main {
+  @include flex-start;
+  align-items: flex-start;
+  padding: 4.8rem 0;
+  gap: 2rem;
+  & > div {
+    width: 25%;
+    height: 100%;
+    &:not(:last-child) {
+      border-right: 0.1rem solid #dfdfdf;
+    }
+  }
+}
+
+.footer_bottom {
+  background-color: $dark;
+  color: $white;
+  font-size: 1.4rem;
+
+  .footer_bottom__main {
+    @include flex-space;
+    gap: 5rem;
+    padding: 2rem 0;
+  }
+}
+
+.footer_logo {
+  a {
+    @include flex-start;
+    gap: 1rem;
+    line-height: 1.6rem;
+
+    img {
+      max-width: 5.6rem;
+    }
+
+    p {
+      font-size: 1.8rem;
+      font-family: $font_5;
+      // line-height: 1.6rem;
+      color: $blue;
+    }
+    span {
+      font-family: $font_4;
+      color: $dark;
+      font-size: 1.2rem;
+      display: block;
+      // line-height: 0;
+    }
+  }
+}
+
+.footer_phone {
+  a {
+    @include flex-start;
+    gap: 1rem;
+    font-family: $font_4;
+    color: $dark;
+    margin-bottom: 0.9rem;
+  }
+  & > p {
+    font-size: 1.4rem;
+    font-family: $font_2;
+  }
+}
+
+.footer_col__info {
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+}
+
+.footer_payment__list {
+  @include flex-start;
+  gap: 1.6rem;
+  div {
+    width: 3.2rem;
+    height: 3.2rem;
+    @include flex-center;
+  }
+}
+
+.footer_col__title {
+  font-size: 1.6rem;
+  font-family: $font_4;
+  margin-bottom: 2.4rem;
+}
+
+.footer_col__nav {
+  display: flex;
+  flex-direction: column;
+  a {
+    font-size: 1.6rem;
+    &:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+.footer_col__socials {
+  p {
+    font-size: 1.4rem;
+    color: #4b5563;
+  }
+}
+
+.footer_socials__list {
+  @include flex-start;
+  gap: 1.5rem;
+  margin-top: -1.4rem;
+  margin-bottom: 8.8rem;
+  li {
+    @include flex-center;
+    width: 3.4rem;
+    height: 3.4rem;
+    a {
+      @include flex-center;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+</style>

@@ -6,7 +6,7 @@
     <div class="content">
       <slot />
     </div>
-    <Action />
+    <Action v-if="!isAboutPage" />
     <Footer />
   </main>
 </template>
@@ -15,6 +15,13 @@
 import Header from "~/components/Header.vue";
 import Footer from "~/components/Footer.vue";
 import Action from "~/components/Action.vue";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+
+const isAboutPage = computed(() => {
+  return route.name === "about";
+});
 </script>
 
 <style lang="scss">

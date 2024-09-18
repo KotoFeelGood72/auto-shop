@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="shop">
     <section class="filter">
       <div class="container">
         <div class="filter_main">
@@ -33,7 +33,9 @@
               </div>
             </div>
           </div>
-          <Button name="Показать результат" />
+          <div class="filter-btn">
+            <Button name="Показать результат" />
+          </div>
         </div>
       </div>
     </section>
@@ -57,7 +59,6 @@
         />
       </div>
     </section>
-    <Action />
   </div>
 </template>
 
@@ -92,4 +93,8 @@ const handlePageChange = (page: number) => {
 };
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.shop {
+  padding: 8rem 0 0 0;
+}
+</style>

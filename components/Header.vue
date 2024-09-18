@@ -4,7 +4,7 @@
       <div class="container">
         <div class="header_main">
           <div class="header_logo">
-            <NuxtLink>
+            <NuxtLink to="/">
               <img src="@/assets/img/logo.png" alt="" />
               <div class="header_logo__content">
                 <p>Nipoteka Auto</p>
@@ -74,28 +74,63 @@
             v-for="(item, i) in nav"
             :key="'nav-item-' + i"
             :to="item.link"
+            @mouseover="showSubmenu(i)"
+            @mouseleave="hideSubmenu()"
           >
             <div class="nav_item__icon">
               <img :src="item.icon" />
             </div>
             <p>{{ item.name }}</p>
+
+            <!-- Выпадающее подменю -->
+            <ul v-if="item.submenu && activeSubmenu === i" class="submenu">
+              <li v-for="(sub, j) in item.submenu" :key="'sub-item-' + j">
+                <NuxtLink :to="sub.link">{{ sub.name }}</NuxtLink>
+              </li>
+            </ul>
           </NuxtLink>
         </nav>
       </div>
     </div>
   </header>
 </template>
-
 <script setup lang="ts">
+import { ref } from "vue";
 import Button from "./Button.vue";
 
-const nav = ref<any>([
-  { name: "О компании", link: "/", icon: "/img/nav-1.svg" },
-  { name: "Подбор авто", link: "/", icon: "/img/nav-2.svg" },
+// Массив с данными для навигации
+const nav = ref([
+  { name: "О компании", link: "/about", icon: "/img/nav-1.svg" },
+  { name: "Подбор авто", link: "/shop", icon: "/img/nav-2.svg" },
   { name: "Отзывы клиентов", link: "/", icon: "/img/nav-3.svg" },
-  { name: "Наши контакты", link: "/", icon: "/img/nav-4.svg" },
-  { name: "Справка", link: "/", icon: "/img/nav-5.svg" },
+  {
+    name: "Наши контакты",
+    link: "/contacts",
+    icon: "/img/nav-4.svg",
+  },
+  {
+    name: "Справка",
+    link: "/",
+    icon: "/img/nav-5.svg",
+    submenu: [
+      { name: "Наши гарантии", link: "/shield" },
+      { name: "Схема работы", link: "/sheme" },
+    ],
+  },
 ]);
+
+// Реф для отслеживания активного подменю
+const activeSubmenu = ref<number | null>(null);
+
+// Показывать подменю при наведении
+const showSubmenu = (index: number) => {
+  activeSubmenu.value = index;
+};
+
+// Скрывать подменю при уходе курсора
+const hideSubmenu = () => {
+  activeSubmenu.value = null;
+};
 </script>
 
 <style scoped lang="scss">
@@ -109,10 +144,11 @@ const nav = ref<any>([
   background-color: $dark;
   color: $white;
   padding: 0 1.5rem;
+  z-index: 999;
 
   nav {
     @include flex-space;
-    a {
+    & > a {
       @include flex-center;
       gap: 1rem;
       color: inherit;
@@ -124,7 +160,6 @@ const nav = ref<any>([
       &:hover {
         background-color: #0000002f;
         &:after {
-          // border-color: #0000002f;
           height: 0;
         }
       }
@@ -258,6 +293,24 @@ const nav = ref<any>([
   span {
     font-size: 1.8rem;
     font-family: $font_3;
+  }
+}
+
+.submenu {
+  position: absolute;
+  background-color: $dark;
+  width: 100%;
+  top: 100%;
+  left: 0;
+  z-index: 999;
+  a {
+    @include flex-start;
+    font-size: 1.8rem;
+    padding: 2rem;
+    color: $white;
+    &:hover {
+      background-color: #00000027;
+    }
   }
 }
 </style>

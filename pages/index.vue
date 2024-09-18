@@ -203,7 +203,7 @@
         </div>
       </div>
     </section>
-    <Action />
+    <!-- <Action /> -->
   </div>
 </template>
 
@@ -265,11 +265,13 @@ const handlePageChange = (page: number) => {
 .hero_banner {
   border-radius: 2rem;
   overflow: hidden;
+  position: relative;
+
   @include flex-start;
   color: $white;
   padding: 5.9rem 6rem 8rem 6.6rem;
-  position: relative;
   flex-grow: 1;
+  background-color: $dark;
 
   h1 {
     font-size: 3rem;
@@ -285,16 +287,18 @@ const handlePageChange = (page: number) => {
 
 .hero_content {
   max-width: 46.9rem;
+  position: relative;
+  z-index: 2;
 }
 
 .hero_banner__car {
   position: absolute;
   top: 0;
-  left: 0;
+  left: 2rem;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: -1;
+  z-index: 1;
   img {
     width: 100%;
     height: 100%;
@@ -320,6 +324,7 @@ const handlePageChange = (page: number) => {
     color: $txt;
     font-family: $font_5;
     margin-bottom: 3rem;
+    font-size: 2.4rem;
   }
 }
 
@@ -332,66 +337,6 @@ const handlePageChange = (page: number) => {
     height: 5rem;
     @include flex-center;
   }
-}
-
-.filter_main {
-  background-color: $white;
-  padding: 2.5rem 4.8rem;
-  border-radius: 2rem;
-
-  h2 {
-    margin-bottom: 2.5rem;
-    font-family: $font_5;
-    font-size: 2.8rem;
-    color: $txt;
-  }
-}
-
-.filter_grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2.5rem;
-}
-
-.filter_col {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.filter_col__row {
-  display: flex;
-  gap: 1.5rem;
-}
-
-.filter-btn {
-  display: inline-flex;
-  :deep(.button) {
-    padding: 1.8rem 10.5rem;
-    font-size: 1.6rem;
-  }
-}
-
-.cars {
-  margin-bottom: 5rem;
-}
-
-.cars_head {
-  padding-top: 7.5rem;
-  @include flex-space;
-  margin-bottom: 2.5rem;
-
-  h2 {
-    font-size: 2.4rem;
-  }
-}
-
-.cars_grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(23%, 1fr));
-  grid-gap: 2rem;
-  margin-bottom: 6.9rem;
 }
 
 .forms__w {
@@ -560,6 +505,7 @@ const handlePageChange = (page: number) => {
 }
 
 .faq_main {
+  margin-bottom: 5rem;
   h5 {
     margin-bottom: 2.5rem;
   }
