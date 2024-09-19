@@ -37,5 +37,14 @@ const sendEvent = () => {
   &:hover {
     background-color: $blue;
   }
+
+  &.secondary {
+    background-color: $white;
+    border: 0.1rem solid $lblue;
+    color: $lblue;
+    &:hover {
+      background-color: #29abe310;
+    }
+  }
 }
 </style>

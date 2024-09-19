@@ -50,7 +50,6 @@
                 },
               }"
               width="100%"
-              height="500px"
             >
               <yandex-map-default-features-layer />
               <yandex-map-default-scheme-layer />
@@ -76,13 +75,6 @@
               >
               </YandexMapDefaultMarker>
             </yandex-map>
-
-            <!-- Отображение информации по клику на маркер -->
-            <div v-if="selectedMarker" class="route-info">
-              <h3>Как доехать:</h3>
-              <p>{{ selectedMarker.subtitle }}</p>
-              <p>{{ selectedMarker.directions }}</p>
-            </div>
           </div>
         </div>
       </div>
@@ -144,7 +136,7 @@ function selectMarker(marker: any) {
 
 <style scoped lang="scss">
 .contacts_main {
-  @include flex-start;
+  @include flex-space;
   gap: 5rem;
   & > div {
     width: 45%;
@@ -201,48 +193,11 @@ function selectMarker(marker: any) {
   height: 2.6rem;
 }
 
-.marker {
-  @include flex-center;
-  flex-direction: column;
-  background-color: $lblue;
-  border-radius: 100%;
-  gap: 0.2rem;
-  font-family: $font_3;
-  color: $white;
-  width: 3rem;
-  height: 3rem;
-  position: relative;
-  &:before {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 1.5rem;
-    border-right: 0.3rem solid $lblue;
-    content: "";
-  }
-  &:after {
-    position: absolute;
-    top: calc(100% + 1.5rem);
-    left: 50.5%;
-    transform: translateX(-50%);
-    width: 0.5rem;
-    height: 0.5rem;
-    background-color: $blue;
-    border-radius: 100px;
-    // background-color: red;
-    content: "";
-  }
-  p {
-    font-size: 1.6rem;
-  }
-  img {
-    width: 2rem;
-  }
-}
+
 
 .contacts_map {
   border-radius: 1rem;
+  height: 34.4rem;
   overflow: hidden;
 }
 </style>

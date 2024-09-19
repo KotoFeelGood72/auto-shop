@@ -23,9 +23,9 @@
           </div>
           <div class="header__time">
             <ul>
-              <li>Владивосток: 18:54</li>
-              <li>Москва: 11:54</li>
-              <li>Сеул: 17:54</li>
+              <li>Владивосток: {{ vladivostokTime }}</li>
+              <li>Москва: {{ moscowTime }}</li>
+              <li>Сеул: {{ seoulTime }}</li>
             </ul>
           </div>
           <div class="header__price">
@@ -94,8 +94,9 @@
     </div>
   </header>
 </template>
+
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import Button from "./Button.vue";
 
 // Массив с данными для навигации
@@ -118,6 +119,36 @@ const nav = ref([
     ],
   },
 ]);
+
+// Время для Владивостока, Москвы и Сеула
+const vladivostokTime = ref<string>("");
+const moscowTime = ref<string>("");
+const seoulTime = ref<string>("");
+
+// Функция для получения времени в указанном часовом поясе
+const getTimeInTimeZone = (timeZone: string) => {
+  const options = {
+    hour: "2-digit",
+    minute: "2-digit",
+  };
+  return new Intl.DateTimeFormat("ru-RU", {
+    ...options,
+    timeZone,
+  }).format(new Date());
+};
+
+// Обновление времени каждые 60 секунд
+const updateTime = () => {
+  vladivostokTime.value = getTimeInTimeZone("Asia/Vladivostok");
+  moscowTime.value = getTimeInTimeZone("Europe/Moscow");
+  seoulTime.value = getTimeInTimeZone("Asia/Seoul");
+};
+
+// Вызов обновления времени при монтировании компонента
+onMounted(() => {
+  updateTime();
+  setInterval(updateTime, 60000); // Обновляем время каждую минуту
+});
 
 // Реф для отслеживания активного подменю
 const activeSubmenu = ref<number | null>(null);
