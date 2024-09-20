@@ -52,6 +52,13 @@ import Button from "./Button.vue";
 </script>
 
 <style scoped lang="scss">
+.action {
+  .container {
+    @include bp($point_2) {
+      padding: 0;
+    }
+  }
+}
 .action_main {
   background-color: $dark;
   color: $white;
@@ -61,6 +68,12 @@ import Button from "./Button.vue";
   padding: 3rem 5rem;
   overflow: hidden;
   margin-bottom: 6rem;
+
+  @include bp($point_2) {
+    flex-direction: column;
+    padding: 4rem 2rem;
+    border-radius: 0;
+  }
 }
 
 .action_form {
@@ -68,8 +81,16 @@ import Button from "./Button.vue";
   margin-bottom: 1.5rem;
   gap: 1.2rem;
 
+  @include bp($point_2) {
+    flex-direction: column;
+  }
+
   :deep(.input) {
     min-width: 31rem;
+    @include bp($point_2) {
+      max-width: 100%;
+      width: 100%;
+    }
   }
   :deep(input) {
     font-size: 1.4rem;
@@ -81,14 +102,25 @@ import Button from "./Button.vue";
     font-size: 1.6rem;
     padding: 1.4rem 7.9rem;
     max-height: 4.9rem;
+    @include bp($point_2) {
+      max-width: 100%;
+      width: 100%;
+    }
   }
 }
 
 .action_content {
   max-width: 61.9rem;
-
+  @include bp($point_2) {
+    max-width: 100%;
+    position: relative;
+    z-index: 22;
+  }
   :deep(h3) {
     margin-bottom: 2rem;
+    @include bp($point_2) {
+      font-size: 2.4rem;
+    }
   }
 }
 
@@ -120,9 +152,17 @@ import Button from "./Button.vue";
     gap: 1rem;
     color: $white;
     font-size: 2rem;
+    @include bp($point_2) {
+      font-size: 1.4rem;
+    }
     p {
       @include flex-start;
       gap: 1.5rem;
+      @include bp($point_2) {
+        gap: 0.5rem;
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
     span {
       font-family: $font_4;
@@ -141,6 +181,9 @@ import Button from "./Button.vue";
     @include flex-start;
     gap: 2.1rem;
     font-family: $font_4;
+    @include bp($point_2) {
+      font-size: 1.6rem;
+    }
     &:nth-child(1) {
       color: #29a71a;
     }
@@ -158,8 +201,23 @@ import Button from "./Button.vue";
   width: 100%;
   height: 100%;
   z-index: 2;
+
+  @include bp($point_2) {
+    pointer-events: none;
+    opacity: 0.4;
+    top: 100%;
+    height: 30rem;
+    max-width: 30rem;
+    top: auto;
+    bottom: 0;
+  }
   img {
     object-fit: cover;
+    @include bp($point_2) {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
   }
 }
 </style>

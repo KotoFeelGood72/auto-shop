@@ -2,11 +2,17 @@
   <div class="main">
     <NuxtLayout>
       <NuxtPage />
+      <ModalFilter />
+      <Burger />
     </NuxtLayout>
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import ModalFilter from "./components/ModalFilter.vue";
+import { useModalStore, useModalStoreRefs } from "@/stores/useModalStore";
+import Burger from "./components/Burger.vue";
+</script>
 
 <style lang="scss">
 .fixed {
@@ -105,6 +111,10 @@ h6 {
   padding: 2.5rem 4.8rem;
   border-radius: 2rem;
 
+  @include bp($point_2) {
+    padding: 2rem 3rem;
+  }
+
   h2 {
     margin-bottom: 2.5rem;
     font-family: $font_5;
@@ -148,6 +158,10 @@ h6 {
   @include flex-space;
   margin-bottom: 2.5rem;
 
+  @include bp($point_2) {
+    flex-direction: column;
+  }
+
   h2 {
     font-size: 2.4rem;
   }
@@ -158,5 +172,9 @@ h6 {
   grid-template-columns: repeat(auto-fill, minmax(23%, 1fr));
   grid-gap: 2rem;
   margin-bottom: 6.9rem;
+
+  @include bp($point_2) {
+    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+  }
 }
 </style>

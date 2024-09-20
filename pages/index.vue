@@ -79,8 +79,11 @@
       <div class="container">
         <div class="cars_head">
           <h2>Найдено: 24 346 автомобилей</h2>
-          <div class="cars_sort">
-            <SortDropdown />
+          <div class="cars_head__row">
+            <FilterTrigger class="home_filter_trigger" />
+            <div class="cars_sort">
+              <SortDropdown />
+            </div>
           </div>
         </div>
         <ul class="cars_grid">
@@ -216,7 +219,7 @@ import SortDropdown from "~/components/SortDropdown.vue";
 import Pagination from "~/components/Pagination.vue";
 import TimeSelect from "~/components/TimeSelect.vue";
 import Accardion from "~/components/Accardion.vue";
-import Action from "~/components/Action.vue";
+import FilterTrigger from "~/components/FilterTrigger.vue";
 
 const options = ["Опция 1", "Опция 2", "Опция 3", "Опция 4"];
 
@@ -260,6 +263,10 @@ const handlePageChange = (page: number) => {
 .hero__row {
   @include flex-start;
   gap: 1.9rem;
+
+  @include bp($point_2) {
+    flex-direction: column;
+  }
 }
 
 .hero_banner {
@@ -273,11 +280,18 @@ const handlePageChange = (page: number) => {
   flex-grow: 1;
   background-color: $dark;
 
+  @include bp($point_2) {
+    padding: 5rem 3rem;
+  }
+
   h1 {
     font-size: 3rem;
     font-family: $font_6;
     text-transform: uppercase;
     margin-bottom: 1.3rem;
+    @include bp($point_2) {
+      font-size: 2.4rem;
+    }
   }
   p {
     font-size: 1.4rem;
@@ -289,6 +303,9 @@ const handlePageChange = (page: number) => {
   max-width: 46.9rem;
   position: relative;
   z-index: 2;
+  @include bp($point_2) {
+    max-width: 100%;
+  }
 }
 
 .hero_banner__car {
@@ -318,6 +335,11 @@ const handlePageChange = (page: number) => {
   justify-content: center;
   :deep(.button) {
     padding: 1.8rem 1.9rem;
+    @include bp($point_2) {
+      width: 100%;
+      padding: 1.5rem 1.2rem;
+      font-size: 1.3rem;
+    }
   }
 
   h2 {
@@ -325,6 +347,9 @@ const handlePageChange = (page: number) => {
     font-family: $font_5;
     margin-bottom: 3rem;
     font-size: 2.4rem;
+    @include bp($point_2) {
+      font-size: 2rem;
+    }
   }
 }
 
@@ -343,6 +368,10 @@ const handlePageChange = (page: number) => {
   @include flex-start;
   gap: 2.1rem;
   margin-bottom: 5rem;
+
+  @include bp($point_2) {
+    flex-direction: column;
+  }
 }
 
 .forms__main {
@@ -351,6 +380,11 @@ const handlePageChange = (page: number) => {
   border-radius: 2rem;
   padding: 3.5rem 5.1rem 3.5rem 5.1rem;
   flex-grow: 1;
+
+  @include bp($point_2) {
+    // border-radius: 0;
+    padding: 4rem 2rem;
+  }
 
   h3 {
     margin-bottom: 2.5rem;
@@ -361,19 +395,33 @@ const handlePageChange = (page: number) => {
   &:deep(.input) {
     max-width: 31rem;
     margin-bottom: 2.9rem;
+
+    @include bp($point_2) {
+      max-width: 100%;
+    }
   }
 
   p {
     margin-bottom: 1rem;
+    @include bp($point_2) {
+      font-size: 1.6rem;
+    }
   }
 }
 .forms_bottom {
   @include flex-start;
   margin-bottom: 2rem;
   gap: 3rem;
+  @include bp($point_2) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
   :deep(.button) {
     padding: 1.4rem 10.8rem;
     font-size: 1.6rem;
+    @include bp($point_2) {
+      width: 100%;
+    }
   }
 }
 
@@ -428,6 +476,9 @@ const handlePageChange = (page: number) => {
 .forms_notice {
   @include flex-start;
   gap: 0.5rem;
+  @include bp($point_2) {
+    gap: 1rem;
+  }
   .forms_notice__icon {
     width: 1.8rem;
     height: 1.8rem;
@@ -435,6 +486,9 @@ const handlePageChange = (page: number) => {
   }
   span {
     font-size: 1.3rem;
+    @include bp($point_2) {
+      font-size: 1rem;
+    }
   }
 }
 
@@ -444,9 +498,16 @@ const handlePageChange = (page: number) => {
     font-size: 3.2rem;
     font-family: $font_5;
     margin-bottom: 1rem;
+
+    @include bp($point_2) {
+      font-size: 2.4rem;
+    }
   }
   p {
     font-size: 2.4rem;
+    @include bp($point_2) {
+      font-size: 1.8rem;
+    }
   }
 }
 
@@ -454,6 +515,10 @@ const handlePageChange = (page: number) => {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
   gap: 2.5rem;
+
+  @include bp($point_2) {
+    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+  }
 }
 
 .spectr_main {
@@ -470,15 +535,24 @@ const handlePageChange = (page: number) => {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  @include bp($point_2) {
+    min-height: auto;
+  }
   p {
     font-size: 2rem;
     font-family: $font_4;
     margin-bottom: 1rem;
+    @include bp($point_2) {
+      font-size: 1.6rem;
+    }
   }
   span {
     font-size: 1.6rem;
     display: block;
     line-height: 1.8rem;
+    @include bp($point_2) {
+      font-size: 1.4rem;
+    }
   }
 
   &:nth-child(1) {
@@ -502,12 +576,59 @@ const handlePageChange = (page: number) => {
   @include flex-center;
   margin: 0 auto 1.6rem auto;
   height: 11.9rem;
+
+  @include bp($point_2) {
+    max-width: 10rem !important;
+    height: 7rem;
+  }
+  img {
+    @include bp($point_2) {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
 }
 
 .faq_main {
   margin-bottom: 5rem;
   h5 {
     margin-bottom: 2.5rem;
+    @include bp($point_2) {
+      font-size: 2.4rem;
+    }
+  }
+}
+
+.filter {
+  @include bp($point_2) {
+    display: none;
+  }
+}
+
+.cars_head {
+  @include bp($point_2) {
+    align-items: flex-start;
+  }
+  h2 {
+    @include bp($point_2) {
+      text-align: left;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+  }
+}
+
+.home_filter_trigger {
+  @include bp($point_2, $direction: min) {
+    display: none;
+  }
+}
+
+.cars_head__row {
+  @include flex-space;
+  @include bp($point_2) {
+    width: 100%;
   }
 }
 </style>

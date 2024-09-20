@@ -71,6 +71,10 @@ const toggleItem = (index: number) => {
     span {
       font-size: 2rem;
       font-family: $font_3;
+
+      @include bp($point_2) {
+        font-size: 1.6rem;
+      }
     }
 
     .accordion-icon {
@@ -91,6 +95,9 @@ const toggleItem = (index: number) => {
 .accordion-body {
   p {
     font-size: 1.6rem;
+    @include bp($point_2) {
+      font-size: 1.4rem;
+    }
   }
 }
 </style>

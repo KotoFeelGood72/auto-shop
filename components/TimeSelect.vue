@@ -11,6 +11,7 @@
         <li
           v-for="time in availableStartTimes"
           :key="time"
+          :class="{ selected: time === startTime }"
           @click="selectStartTime(time)"
         >
           {{ time }}
@@ -31,6 +32,7 @@
         <li
           v-for="time in availableEndTimes"
           :key="time"
+          :class="{ selected: time === endTime }"
           @click="selectEndTime(time)"
         >
           {{ time }}
@@ -41,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, onMounted, onUnmounted } from "vue";
 
 const times = [
   "08:00",
@@ -86,7 +88,6 @@ const toggleDropdown = (dropdown: string) => {
 
 const selectStartTime = (time: string) => {
   startTime.value = time;
-
   if (endTime.value && endTime.value < time) {
     endTime.value = null;
   }
@@ -97,6 +98,23 @@ const selectEndTime = (time: string) => {
   endTime.value = time;
   isDropdownOpen.value = null;
 };
+
+// Закрытие dropdown при прокрутке
+const closeDropdownOnScroll = () => {
+  if (isDropdownOpen.value) {
+    isDropdownOpen.value = null;
+  }
+};
+
+// Обработка событий при монтировании компонента
+onMounted(() => {
+  window.addEventListener("scroll", closeDropdownOnScroll);
+});
+
+// Удаление обработчика событий при размонтировании компонента
+onUnmounted(() => {
+  window.removeEventListener("scroll", closeDropdownOnScroll);
+});
 </script>
 
 <style scoped lang="scss">
@@ -105,6 +123,9 @@ const selectEndTime = (time: string) => {
   @include flex-start;
   gap: 1.2rem;
   margin-bottom: 3.1rem;
+  @include bp($point_2) {
+    margin-bottom: 2rem;
+  }
 
   .select-box {
     background-color: #efefef;
@@ -133,7 +154,7 @@ const selectEndTime = (time: string) => {
   top: calc(100%);
   background-color: #efefef;
   width: 100%;
-  border-radius: 1rem;
+  // border-radius: 1rem;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   max-height: 15rem;
@@ -155,5 +176,52 @@ const selectEndTime = (time: string) => {
 
 .icon {
   color: $lblue;
+}
+
+.dropdown {
+  position: absolute;
+  left: 0;
+  top: calc(100%);
+  background-color: #efefef;
+  width: 100%;
+  border-radius: 1rem;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  max-height: 15rem;
+  overflow-y: auto;
+
+  scrollbar-width: thin;
+  scrollbar-color: $lblue transparent;
+  // Стилизация прокрутки
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $lblue;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: darken($lblue, 10%);
+  }
+
+  li {
+    font-size: 1.4rem;
+    padding: 0.4rem 1rem;
+    cursor: pointer;
+    font-family: $font_3;
+    transition: all 0.3s ease-in-out;
+    &:not(:last-child) {
+      border-bottom: 0.1rem solid #e9e9e9;
+    }
+    &:hover {
+      color: $lblue;
+    }
+
+    // Отметка выбранного пункта
+    &.selected {
+      background-color: $lblue;
+      color: #fff;
+    }
+  }
 }
 </style>

@@ -106,6 +106,10 @@ const visiblePages = computed(() => {
 <style scoped lang="scss">
 .pagination {
   gap: 14.1rem;
+
+  @include bp($point_2) {
+    gap: 1rem;
+  }
 }
 .pagination,
 .pagination__numbers {
@@ -114,6 +118,9 @@ const visiblePages = computed(() => {
 
 .pagination__numbers {
   gap: 1.6rem;
+  @include bp($point_2) {
+    gap: 0.2rem;
+  }
   span {
     @include flex-center;
     width: 3.2rem;

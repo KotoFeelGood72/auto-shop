@@ -64,6 +64,11 @@
             </div>
             <Button name="Заказать звонок" />
           </div>
+          <div class="burger" @click="openModal('burger')">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
         </div>
       </div>
     </div>
@@ -98,6 +103,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import Button from "./Button.vue";
+import { useModalStore } from "@/stores/useModalStore";
 
 // Массив с данными для навигации
 const nav = ref([
@@ -111,14 +117,15 @@ const nav = ref([
   },
   {
     name: "Справка",
-    link: "/",
     icon: "/img/nav-5.svg",
     submenu: [
-      { name: "Наши гарантии", link: "/shield" },
-      { name: "Схема работы", link: "/sheme" },
+      { name: "Наши гарантии", link: "/reference/shield" },
+      { name: "Схема работы", link: "/reference/sheme" },
     ],
   },
 ]);
+
+const { openModal } = useModalStore();
 
 // Время для Владивостока, Москвы и Сеула
 const vladivostokTime = ref<string>("");
@@ -169,6 +176,9 @@ const hideSubmenu = () => {
   @include flex-space;
   gap: 5rem;
   padding: 2rem 0;
+  @include bp($point_2) {
+    gap: 2rem;
+  }
 }
 
 .header_bottom {
@@ -177,8 +187,19 @@ const hideSubmenu = () => {
   padding: 0 1.5rem;
   z-index: 999;
 
+  @include bp($point_2) {
+    display: none;
+  }
+
   nav {
     @include flex-space;
+    .router-link-active,
+    .router-link-exact-active {
+      background-color: #0000002f;
+      &:after {
+        border-color: $lblue;
+      }
+    }
     & > a {
       @include flex-center;
       gap: 1rem;
@@ -188,6 +209,7 @@ const hideSubmenu = () => {
       padding: 1.9rem 4.1rem 1.9rem 2rem;
       flex-grow: 1;
       position: relative;
+
       &:hover {
         background-color: #0000002f;
         &:after {
@@ -240,10 +262,35 @@ const hideSubmenu = () => {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+
+  @include bp($point_2) {
+    display: none;
+  }
   & > span {
     font-family: $font_5;
     font-size: 1.2rem;
     color: $m-gray;
+  }
+}
+
+.header__price,
+.header__time {
+  @include bp($point_2) {
+    display: none;
+  }
+}
+
+:deep(.button) {
+  @include bp($point_2) {
+    display: none;
+  }
+}
+
+.header_social {
+  a {
+    &:not(:last-child) {
+      display: none;
+    }
   }
 }
 
@@ -324,6 +371,10 @@ const hideSubmenu = () => {
   span {
     font-size: 1.8rem;
     font-family: $font_3;
+
+    @include bp($point_2) {
+      font-size: 1.6rem;
+    }
   }
 }
 
@@ -339,8 +390,49 @@ const hideSubmenu = () => {
     font-size: 1.8rem;
     padding: 2rem;
     color: $white;
+
     &:hover {
       background-color: #00000027;
+    }
+  }
+  .router-link-active,
+  .router-link-exact-active {
+    color: $lblue;
+  }
+}
+
+.header_top {
+  @include bp($point_2) {
+    background-color: $dark;
+    color: $white;
+  }
+}
+
+.header_social__txt {
+  @include bp($point_2) {
+    color: $white;
+  }
+}
+
+.burger {
+  width: 4rem;
+  height: 2.5rem;
+  position: relative;
+  span {
+    position: absolute;
+    right: 0;
+    width: 100%;
+    height: 0.3rem;
+    background-color: $white;
+    &:nth-child(1) {
+      top: 0;
+    }
+    &:nth-child(2) {
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    &:nth-child(3) {
+      bottom: 0;
     }
   }
 }

@@ -72,7 +72,7 @@
       <div class="container">
         <div class="footer_bottom__main">
           <p>© Copyright 2008-2024. ООО "Нипотека авто"</p>
-          <p>Авто из Кореи - ООО «Нипотека авто» г. ?????, ул. ??????</p>
+          <p>Авто из Кореи - ООО «Нипотека авто»</p>
         </div>
       </div>
     </div>
@@ -91,11 +91,25 @@
   align-items: flex-start;
   padding: 4.8rem 0;
   gap: 2rem;
+  @include bp($point_2) {
+    padding: 2rem 0;
+    gap: 3rem;
+  }
+
+  @include bp($point_2) {
+    flex-direction: column;
+  }
   & > div {
     width: 25%;
     height: 100%;
+    @include bp($point_2) {
+      width: 100%;
+    }
     &:not(:last-child) {
       border-right: 0.1rem solid #dfdfdf;
+      @include bp($point_2) {
+        border: none;
+      }
     }
   }
 }
@@ -104,11 +118,18 @@
   background-color: $dark;
   color: $white;
   font-size: 1.4rem;
+  @include bp($point_2) {
+    font-size: 0.8rem;
+  }
 
   .footer_bottom__main {
     @include flex-space;
     gap: 5rem;
     padding: 2rem 0;
+    @include bp($point_2) {
+      gap: 1rem;
+      padding: 2rem 0;
+    }
   }
 }
 
@@ -197,6 +218,9 @@
   gap: 1.5rem;
   margin-top: -1.4rem;
   margin-bottom: 8.8rem;
+  @include bp($point_2) {
+    margin-bottom: 3rem;
+  }
   li {
     @include flex-center;
     width: 3.4rem;
