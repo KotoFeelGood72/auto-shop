@@ -47,4 +47,8 @@ $font_size_base: 2rem;
   max-width: $page_width;
   padding: 0 2rem;
   margin: 0 auto;
+
+  @include bp($point_4) {
+    max-width: 100%;
+  }
 }

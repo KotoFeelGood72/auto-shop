@@ -76,7 +76,7 @@ onBeforeUnmount(() => {
 <style scoped lang="scss">
 .sort-dropdown {
   position: relative;
-  min-width: 23rem;
+  // min-width: 23rem;
 
   .sort-header {
     @include flex-end;
@@ -85,6 +85,9 @@ onBeforeUnmount(() => {
     gap: 1rem;
     font-size: 1.8rem;
     font-family: $font_4;
+    @include bp($point_2) {
+      font-size: 1.6rem;
+    }
   }
 
   .sort-options {
@@ -96,6 +99,11 @@ onBeforeUnmount(() => {
     border-radius: 1rem;
     overflow: hidden;
     border: 0.1rem solid #e9e9e9;
+    @include bp($point_2) {
+      min-width: 23rem;
+      left: auto;
+      right: 0;
+    }
   }
 
   .sort-options li {
@@ -118,5 +126,9 @@ onBeforeUnmount(() => {
 
 .sort_icon {
   @include flex-center;
+  @include bp($point_2) {
+    width: 2rem;
+    height: 2rem;
+  }
 }
 </style>

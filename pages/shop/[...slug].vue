@@ -15,21 +15,26 @@
               :slides-per-view="3"
               :space-between="31"
               :modules="[Thumbs]"
-              :direction="'vertical'"
+              :direction="thumbsDirection"
               :breakpoints="{
                 320: {
-                  slidesPerView: 2,
+                  slidesPerView: 3,
                   spaceBetween: 10,
+                  direction: 'horizontal',
                 },
                 1024: {
                   slidesPerView: 4,
                   spaceBetween: 15,
+                  direction: 'vertical',
                 },
               }"
               watch-slides-progress
               @swiper="setThumbsSwiper"
             >
-              <SwiperSlide v-for="(image, i) in 4" :key="'single-thumb-slide-' + i">
+              <SwiperSlide
+                v-for="(image, i) in 4"
+                :key="'single-thumb-slide-' + i"
+              >
                 <img :src="`/img/car-gallery.jpg`" alt="" class="full" />
               </SwiperSlide>
             </Swiper>
@@ -47,7 +52,10 @@
                   nextEl: `.next`,
                 }"
               >
-                <SwiperSlide v-for="(image, i) in 4" :key="'single-item-slide-' + i">
+                <SwiperSlide
+                  v-for="(image, i) in 4"
+                  :key="'single-item-slide-' + i"
+                >
                   <img :src="`/img/car-gallery.jpg`" alt="" class="full" />
                 </SwiperSlide>
               </Swiper>
@@ -138,7 +146,7 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import CardCar from "~/components/CardCar.vue";
 
 const thumbsSwiper = ref(null);
-
+const thumbsDirection = ref("vertical");
 const setThumbsSwiper = (swiper: any) => {
   thumbsSwiper.value = swiper;
 };
@@ -164,6 +172,18 @@ const car = ref<any>({
   align-items: flex-end;
   gap: 4rem;
   margin-bottom: 2rem;
+  @include bp($point_2) {
+    gap: 0.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  h1 {
+    @include bp($point_2) {
+      font-size: 2.4rem;
+      order: 1;
+    }
+  }
 }
 
 .cars__param {
@@ -173,6 +193,9 @@ const car = ref<any>({
   opacity: 0.4;
   gap: 2.3rem;
   white-space: nowrap;
+  @include bp($point_2) {
+    order: 0;
+  }
 
   .eye {
     @include flex-end;
@@ -185,6 +208,10 @@ const car = ref<any>({
   align-items: flex-start;
   gap: 1.6rem;
   margin-bottom: 6rem;
+  @include bp($point_2) {
+    flex-direction: column;
+    max-width: 100%;
+  }
 }
 
 .cars__sliders {
@@ -193,11 +220,27 @@ const car = ref<any>({
   position: relative;
   gap: 0.8rem;
   max-width: 62.8rem;
+  @include bp($point_2) {
+    flex-direction: column;
+    max-width: 100%;
+  }
+
+  .swiper {
+    @include bp($point_2) {
+      width: 100%;
+    }
+  }
 }
 
 .cars_thumb__slider {
   max-width: 10rem;
   height: 36.5rem;
+
+  @include bp($point_2) {
+    order: 2;
+    height: 10rem;
+    max-width: 100%;
+  }
 
   :deep(.swiper) {
     height: 100%;
@@ -213,6 +256,11 @@ const car = ref<any>({
 .cars_slider {
   max-width: 52rem;
   height: 36.5rem;
+  @include bp($point_2) {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+  }
 
   :deep(.swiper-slide) {
     border-radius: 2rem;
@@ -222,6 +270,7 @@ const car = ref<any>({
 
 .car_slider__w {
   position: relative;
+  max-width: 100%;
 }
 
 .share_car {
@@ -234,6 +283,10 @@ const car = ref<any>({
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   margin-top: 1.8rem;
+
+  @include bp($point_2) {
+    display: none;
+  }
   &:hover {
     color: $blue;
   }
@@ -280,10 +333,17 @@ const car = ref<any>({
 .cars__params {
   flex-grow: 1;
   min-width: 28rem;
+  @include bp($point_2) {
+    min-width: auto;
+    margin-bottom: 2rem;
+  }
   ul {
     display: flex;
     flex-direction: column;
     gap: 1.6rem;
+    @include bp($point_2) {
+      gap: 1rem;
+    }
     li {
       @include flex-start;
       font-size: 1.6rem;

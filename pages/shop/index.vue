@@ -96,5 +96,39 @@ const handlePageChange = (page: number) => {
 <style scoped lang="scss">
 .shop {
   padding: 8rem 0 0 0;
+  @include bp($point_2) {
+    padding: 0;
+    :deep(.filter-btn .button) {
+      padding: 1.8rem 2rem !important;
+      width: 100%;
+    }
+    :deep(.filter-btn) {
+      width: 100%;
+    }
+  }
+}
+
+.filter {
+  :deep(.container) {
+    @include bp($point_2) {
+      padding: 0;
+    }
+  }
+
+  .filter_main {
+    @include bp($point_2) {
+      border-radius: 0;
+      margin-bottom: 4rem;
+    }
+  }
+}
+
+.cars {
+  :deep(.sort-options) {
+    @include bp($point_2) {
+      left: 0;
+      right: auto;
+    }
+  }
 }
 </style>

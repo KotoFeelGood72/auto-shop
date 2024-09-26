@@ -78,11 +78,19 @@
   margin-bottom: 4rem;
   @include flex-start;
   gap: 2.5rem;
+  @include bp($point_2) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
 }
 
 .shield_head__subtitle {
   font-size: 2.6rem;
   font-family: $font_4;
+  @include bp($point_2) {
+    font-size: 2.2rem;
+  }
   span {
     color: $blue;
   }
@@ -99,12 +107,20 @@
   position: relative;
   min-height: 45rem;
   gap: 2rem;
+  @include bp($point_2) {
+    flex-direction: column;
+  }
   &:nth-child(2) {
     .shield_body_img {
       order: 0;
       margin-right: 0;
       margin-left: -7.8%;
       max-width: 60.2rem;
+      @include bp($point_2) {
+        margin-left: -5rem;
+        margin-right: -5rem;
+        order: 1;
+      }
     }
     .shield_body__contents {
       order: 1;
@@ -133,6 +149,10 @@
 .shield_body_img {
   max-width: 63.3rem;
   margin-right: -100%;
+  @include bp($point_2) {
+    margin-right: -5rem;
+    margin-left: -5rem;
+  }
   img {
     width: 100%;
     height: 100%;

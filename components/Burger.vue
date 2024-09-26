@@ -1,6 +1,7 @@
 <template>
   <transition name="slide-right">
     <div class="burger">
+      <div class="burger_bg" @click="closeModal('burger')"></div>
       <div class="burger_main">
         <div class="burger_head">
           <div class="burger_logo">
@@ -12,34 +13,32 @@
               </div>
             </NuxtLink>
           </div>
-          <div class="burger__close">
+          <div class="burger__close" @click="closeModal('burger')">
             <Icon name="material-symbols:close" :size="30" />
           </div>
         </div>
         <div class="burger_bottom">
-          <div class="container">
-            <nav>
-              <NuxtLink
-                v-for="(item, i) in nav"
-                :key="'nav-item-' + i"
-                :to="item.link"
-                @mouseover="showSubmenu(i)"
-                @mouseleave="hideSubmenu()"
-              >
-                <div class="nav_item__icon">
-                  <img :src="item.icon" />
-                </div>
-                <p>{{ item.name }}</p>
+          <nav>
+            <NuxtLink
+              v-for="(item, i) in nav"
+              :key="'nav-item-' + i"
+              :to="item.link"
+              @mouseover="showSubmenu(i)"
+              @mouseleave="hideSubmenu()"
+            >
+              <div class="nav_item__icon" v-if="item.submenu">
+                <img :src="item.icon" />
+              </div>
+              <p>{{ item.name }}</p>
 
-                <!-- Выпадающее подменю -->
-                <ul v-if="item.submenu && activeSubmenu === i" class="submenu">
-                  <li v-for="(sub, j) in item.submenu" :key="'sub-item-' + j">
-                    <NuxtLink :to="sub.link">{{ sub.name }}</NuxtLink>
-                  </li>
-                </ul>
-              </NuxtLink>
-            </nav>
-          </div>
+              <!-- Выпадающее подменю -->
+              <ul v-if="item.submenu && activeSubmenu === i" class="submenu">
+                <li v-for="(sub, j) in item.submenu" :key="'sub-item-' + j">
+                  <NuxtLink :to="sub.link">{{ sub.name }}</NuxtLink>
+                </li>
+              </ul>
+            </NuxtLink>
+          </nav>
         </div>
         <div class="burger__time">
           <ul>
@@ -92,6 +91,9 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import Button from "./Button.vue";
+import { useModalStore } from "@/stores/useModalStore";
+
+const { closeModal } = useModalStore();
 
 // Массив с данными для навигации
 const nav = ref([
@@ -167,11 +169,26 @@ const hideSubmenu = () => {
   z-index: 101;
 }
 
+.burger_bg {
+  background-color: $dark;
+  opacity: 0.5;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 .burger_main {
   background-color: $white;
   max-width: 90%;
   border-right: 0.1rem solid $light;
   position: relative;
+  height: 100%;
+  padding: 2rem;
+  flex-direction: column;
+  display: flex;
+  gap: 2rem;
 }
 
 .burger_head {
@@ -214,5 +231,84 @@ const hideSubmenu = () => {
 
 .stars {
   @include flex-start;
+}
+
+.burger_bottom {
+  border-bottom: 0.1rem solid $light;
+  padding-bottom: 2rem;
+  nav {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  a {
+    @include flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+}
+
+.submenu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  width: 100%;
+  padding-left: 4rem;
+}
+
+.nav_item__icon {
+  background-color: $dark;
+  border-radius: 100%;
+  @include flex-center;
+  width: 2.4rem;
+  height: 2.3rem;
+}
+
+.burger__price {
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    li {
+      @include flex-start;
+      gap: 1rem;
+    }
+  }
+}
+
+.burger__time {
+  border-bottom: 0.1rem solid $light;
+  padding-bottom: 2rem;
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+.burger_social {
+  @include flex-start;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  a {
+    @include flex-start;
+    gap: 1rem;
+  }
+
+  .burger_social__txt {
+    p {
+      font-size: 1.2rem;
+    }
+    span {
+      font-size: 1.4rem;
+      display: block;
+    }
+  }
+}
+
+.router-link-active,
+.router-link-exact-active {
+  color: $lblue;
 }
 </style>

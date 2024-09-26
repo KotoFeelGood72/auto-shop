@@ -108,6 +108,11 @@
 .about_main {
   @include flex-start;
   padding-bottom: 6rem;
+
+  @include bp($point_2) {
+    flex-direction: column;
+    gap: 4rem;
+  }
 }
 
 .about_content__txt {
@@ -129,6 +134,12 @@
   position: absolute;
   right: 0;
   top: 12rem;
+  @include bp($point_2) {
+    position: static;
+    max-width: 120%;
+    margin-right: -5rem;
+    margin-left: -5rem;
+  }
 }
 
 .about_services {
@@ -150,6 +161,10 @@
   grid-template-columns: repeat(auto-fill, minmax(17%, 1fr));
   grid-gap: 2rem;
   margin-bottom: 6rem;
+
+  @include bp($point_2) {
+    grid-template-columns: repeat(auto-fill, minmax(45%, 1fr));
+  }
   li {
     display: flex;
     flex-direction: column;
@@ -159,6 +174,9 @@
     font-size: 1.8rem;
     font-family: $font_3;
     color: $dark;
+    @include bp($point_2) {
+      font-size: 1.6rem;
+    }
   }
 }
 
@@ -166,12 +184,20 @@
   width: 12rem;
   height: 12rem;
   @include flex-center;
+  @include bp($point_2) {
+    width: 8rem;
+    height: 8rem;
+  }
 }
 
 .adv {
   @include flex-start;
   align-items: flex-start;
   gap: 12.8rem;
+  @include bp($point_2) {
+    flex-direction: column;
+    gap: 3rem;
+  }
 }
 
 .adv__content {

@@ -1,17 +1,31 @@
 <template>
-  <div class="main">
-    <NuxtLayout>
-      <NuxtPage />
-      <ModalFilter />
-      <Burger />
-    </NuxtLayout>
-  </div>
+  <NuxtLayout>
+    <NuxtPage />
+    <transition name="slide-left">
+      <ModalFilter v-if="modals.filter" />
+    </transition>
+    <transition name="slide-left">
+      <Burger v-if="modals.burger" />
+    </transition>
+  </NuxtLayout>
 </template>
 
 <script lang="ts" setup>
 import ModalFilter from "./components/ModalFilter.vue";
 import { useModalStore, useModalStoreRefs } from "@/stores/useModalStore";
 import Burger from "./components/Burger.vue";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+const { closeAllModals } = useModalStore();
+const { modals } = useModalStoreRefs();
+
+watch(
+  () => route.fullPath,
+  () => {
+    closeAllModals();
+  }
+);
 </script>
 
 <style lang="scss">
@@ -63,6 +77,10 @@ body {
   @supports (display: grid) {
     display: block;
   }
+
+  @include bp($point_2) {
+    font-size: 1.6rem;
+  }
 }
 
 a {
@@ -93,6 +111,35 @@ a {
 
 .fade-enter-from,
 .fade-leave-to {
+  opacity: 0;
+}
+
+/* Добавляем анимацию для появления элемента слева направо */
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+/* Когда элемент только появляется, сдвигаем его за пределы экрана */
+.slide-left-enter-from {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+/* После завершения анимации элемент находится в исходном положении */
+.slide-left-enter-to {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Когда элемент закрывается, он снова сдвигается за пределы экрана */
+.slide-left-leave-from {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.slide-left-leave-to {
+  transform: translateX(-100%);
   opacity: 0;
 }
 
@@ -128,6 +175,10 @@ h6 {
   grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
   gap: 1.5rem;
   margin-bottom: 2.5rem;
+
+  @include bp($point_2) {
+    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+  }
 }
 
 .filter_col {
@@ -160,6 +211,9 @@ h6 {
 
   @include bp($point_2) {
     flex-direction: column;
+    padding-top: 0;
+    gap: 2rem;
+    align-items: flex-start;
   }
 
   h2 {
@@ -175,6 +229,12 @@ h6 {
 
   @include bp($point_2) {
     grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+  }
+}
+
+.main {
+  @include bp($point_2) {
+    overflow-x: hidden;
   }
 }
 </style>

@@ -167,6 +167,9 @@ import Action from "~/components/Action.vue";
 .sheme_list__row {
   @include flex-start;
   gap: 2rem;
+  @include bp($point_2) {
+    flex-direction: column;
+  }
 }
 
 .sheme_list__row {
@@ -190,6 +193,9 @@ import Action from "~/components/Action.vue";
     @include flex-start;
     .sheme_item {
       max-width: 30.3rem;
+      @include bp($point_2) {
+        max-width: 100%;
+      }
     }
   }
 }
@@ -200,8 +206,15 @@ import Action from "~/components/Action.vue";
   padding: 1.5rem 3rem;
   position: relative;
 
+  @include bp($point_2) {
+    width: 100%;
+  }
+
   &.last {
     min-height: 39.2rem;
+    @include bp($point_2) {
+      min-height: 32.2rem;
+    }
   }
 }
 
@@ -229,6 +242,9 @@ import Action from "~/components/Action.vue";
     display: flex;
     flex-direction: column;
     gap: 1.1rem;
+    @include bp($point_2) {
+      gap: 0.5rem;
+    }
     li {
       font-size: 1.6rem;
     }
@@ -239,20 +255,38 @@ import Action from "~/components/Action.vue";
   @include flex-start;
   flex-wrap: wrap;
   gap: 2rem;
+  @include bp($point_2) {
+    flex-direction: column;
+  }
 
   .sheme_item {
     height: 18.6rem;
+    @include bp($point_2) {
+      height: auto;
+    }
     &:nth-child(1) {
       max-width: calc(55% - 1rem);
+      @include bp($point_2) {
+        max-width: 100%;
+      }
     }
     &:nth-child(2) {
       max-width: calc(45% - 1rem);
+      @include bp($point_2) {
+        max-width: 100%;
+      }
     }
     &:nth-child(3) {
       max-width: calc(65% - 1rem);
+      @include bp($point_2) {
+        max-width: 100%;
+      }
     }
     &:nth-child(4) {
       max-width: calc(35% - 1rem);
+      @include bp($point_2) {
+        max-width: 100%;
+      }
     }
   }
 }

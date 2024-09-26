@@ -5,14 +5,15 @@
       @click="toggleDropdown('start')"
       :class="{ active: isDropdownOpen === 'start' }"
     >
-      <p>{{ startTime || "С " + availableStartTimes[0] }}</p>
+      <!-- Отображаем "С" перед выбранным временем, если startTime выбрано -->
+      <p>{{ startTime ? "С " + startTime : "С " + availableStartTimes[0] }}</p>
       <Icon name="fluent:chevron-down-28-regular" class="icon" :size="26" />
       <ul v-if="isDropdownOpen === 'start'" class="dropdown">
         <li
           v-for="time in availableStartTimes"
           :key="time"
           :class="{ selected: time === startTime }"
-          @click="selectStartTime(time)"
+          @click.stop="selectStartTime(time)"
         >
           {{ time }}
         </li>
@@ -24,8 +25,13 @@
       :class="{ active: isDropdownOpen === 'end' }"
       @click="toggleDropdown('end')"
     >
+      <!-- Отображаем "До" перед выбранным временем, если endTime выбрано -->
       <p>
-        {{ endTime || "До " + availableEndTimes[availableEndTimes.length - 1] }}
+        {{
+          endTime
+            ? "До " + endTime
+            : "До " + availableEndTimes[availableEndTimes.length - 1]
+        }}
       </p>
       <Icon name="fluent:chevron-down-28-regular" class="icon" :size="26" />
       <ul v-if="isDropdownOpen === 'end'" class="dropdown">
@@ -33,7 +39,7 @@
           v-for="time in availableEndTimes"
           :key="time"
           :class="{ selected: time === endTime }"
-          @click="selectEndTime(time)"
+          @click.stop="selectEndTime(time)"
         >
           {{ time }}
         </li>
@@ -91,12 +97,12 @@ const selectStartTime = (time: string) => {
   if (endTime.value && endTime.value < time) {
     endTime.value = null;
   }
-  isDropdownOpen.value = null;
+  isDropdownOpen.value = null; // Закрываем выпадающий список после выбора
 };
 
 const selectEndTime = (time: string) => {
   endTime.value = time;
-  isDropdownOpen.value = null;
+  isDropdownOpen.value = null; // Закрываем выпадающий список после выбора
 };
 
 // Закрытие dropdown при прокрутке
@@ -138,6 +144,14 @@ onUnmounted(() => {
     font-size: 1.4rem;
     font-family: $font_3;
 
+    @include bp($point_2) {
+      padding: 0.7rem 1.2rem;
+      gap: 2rem;
+      width: 50%;
+      justify-content: space-between;
+      border-radius: 0.5rem;
+    }
+
     &.active {
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
@@ -154,7 +168,7 @@ onUnmounted(() => {
   top: calc(100%);
   background-color: #efefef;
   width: 100%;
-  // border-radius: 1rem;
+  border-radius: 1rem;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   max-height: 15rem;
@@ -176,6 +190,10 @@ onUnmounted(() => {
 
 .icon {
   color: $lblue;
+  @include bp($point_2) {
+    width: 1.5rem;
+    height: 2rem;
+  }
 }
 
 .dropdown {
@@ -192,7 +210,6 @@ onUnmounted(() => {
 
   scrollbar-width: thin;
   scrollbar-color: $lblue transparent;
-  // Стилизация прокрутки
   &::-webkit-scrollbar {
     width: 8px;
   }
@@ -217,7 +234,6 @@ onUnmounted(() => {
       color: $lblue;
     }
 
-    // Отметка выбранного пункта
     &.selected {
       background-color: $lblue;
       color: #fff;

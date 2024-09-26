@@ -138,8 +138,14 @@ function selectMarker(marker: any) {
 .contacts_main {
   @include flex-space;
   gap: 5rem;
+  @include bp($point_2) {
+    flex-direction: column;
+  }
   & > div {
     width: 45%;
+    @include bp($point_2) {
+      width: 100%;
+    }
   }
 }
 
@@ -169,6 +175,11 @@ function selectMarker(marker: any) {
       ul {
         @include flex-start;
         gap: 3.7rem;
+        @include bp($point_2) {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 1.5rem;
+        }
         li {
           margin: 0 !important;
         }
@@ -192,8 +203,6 @@ function selectMarker(marker: any) {
   width: 2.6rem;
   height: 2.6rem;
 }
-
-
 
 .contacts_map {
   border-radius: 1rem;

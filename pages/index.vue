@@ -3,9 +3,6 @@
     <section class="hero">
       <div class="container">
         <div class="hero_main">
-          <div class="hero_time__work">
-            <img src="@/assets/img/timework.png" alt="" />
-          </div>
           <div class="hero__row">
             <div class="hero_banner">
               <div class="hero_content">
@@ -249,15 +246,6 @@ const handlePageChange = (page: number) => {
   display: flex;
   flex-direction: column;
   gap: 2.8rem;
-}
-
-.hero_time__work {
-  max-width: 8.8rem;
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
 }
 
 .hero__row {
@@ -614,7 +602,7 @@ const handlePageChange = (page: number) => {
     @include bp($point_2) {
       text-align: left;
       font-size: 2rem;
-      margin-bottom: 2rem;
+      // margin-bottom: 2rem;
     }
   }
 }

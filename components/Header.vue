@@ -128,12 +128,12 @@ const nav = ref([
 const { openModal } = useModalStore();
 
 // Время для Владивостока, Москвы и Сеула
-const vladivostokTime = ref<string>("");
-const moscowTime = ref<string>("");
-const seoulTime = ref<string>("");
+const vladivostokTime = ref<any>("");
+const moscowTime = ref<any>("");
+const seoulTime = ref<any>("");
 
 // Функция для получения времени в указанном часовом поясе
-const getTimeInTimeZone = (timeZone: string) => {
+const getTimeInTimeZone = (timeZone: any) => {
   const options = {
     hour: "2-digit",
     minute: "2-digit",
@@ -418,6 +418,10 @@ const hideSubmenu = () => {
   width: 4rem;
   height: 2.5rem;
   position: relative;
+
+  @include bp($point_2, $direction: min) {
+    display: none;
+  }
   span {
     position: absolute;
     right: 0;

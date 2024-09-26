@@ -19,6 +19,11 @@ export const useModalStore = defineStore("modal", {
     closeModal(modalName: keyof ModalsState): void {
       this.modals[modalName] = false;
     },
+    closeAllModals() {
+      Object.keys(this.modals).forEach((modalName) => {
+        this.modals[modalName as keyof ModalsState] = false;
+      });
+    },
   },
 });
 

@@ -110,6 +110,25 @@ onBeforeUnmount(() => {
   border-top: 0;
 }
 
+.options::-webkit-scrollbar {
+  width: 0.6rem;
+}
+
+.options::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 0.4rem;
+}
+
+.options::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 0.4rem;
+  border: 0.1rem solid #ccc;
+}
+
+.options::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
 .option {
   padding: 1rem;
   cursor: pointer;
