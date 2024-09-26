@@ -62,7 +62,10 @@
                 </div>
               </a>
             </div>
-            <Button name="Заказать звонок" />
+            <Button
+              name="Заказать звонок"
+              @click="openModal('modalCallback')"
+            />
           </div>
           <div class="burger" @click="openModal('burger')">
             <span></span>
@@ -109,7 +112,7 @@ import { useModalStore } from "@/stores/useModalStore";
 const nav = ref([
   { name: "О компании", link: "/about", icon: "/img/nav-1.svg" },
   { name: "Подбор авто", link: "/shop", icon: "/img/nav-2.svg" },
-  { name: "Отзывы клиентов", link: "/", icon: "/img/nav-3.svg" },
+  { name: "Отзывы клиентов", link: "/reviews", icon: "/img/nav-3.svg" },
   {
     name: "Наши контакты",
     link: "/contacts",

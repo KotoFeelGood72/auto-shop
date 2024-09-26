@@ -1,6 +1,6 @@
 <template>
   <div class="modal-filter">
-    <div class="modal_filter__bg" @click="closeModal('filter')"></div>
+    <!-- <div class="modal_filter__bg" @click="closeModal('filter')"></div> -->
     <div class="modal_filter__main">
       <div class="modal_filter__close" @click="closeModal('filter')">
         <Icon name="material-symbols:close" :size="30" />
@@ -26,6 +26,7 @@ const { closeModal } = useModalStore();
   width: 100%;
   height: 100%;
   flex-direction: column;
+  pointer-events: none;
   @include bp($point_2, $direction: min) {
     display: none;
   }
@@ -48,6 +49,7 @@ const { closeModal } = useModalStore();
   position: relative;
   max-height: 100%;
   overflow-y: auto;
+  pointer-events: all;
 }
 
 .modal_filter__close {

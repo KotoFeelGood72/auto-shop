@@ -1,7 +1,7 @@
 <template>
   <transition name="slide-right">
     <div class="burger">
-      <div class="burger_bg" @click="closeModal('burger')"></div>
+      <!-- <div class="burger_bg" @click="closeModal('burger')"></div> -->
       <div class="burger_main">
         <div class="burger_head">
           <div class="burger_logo">
@@ -99,7 +99,7 @@ const { closeModal } = useModalStore();
 const nav = ref([
   { name: "О компании", link: "/about", icon: "/img/nav-1.svg" },
   { name: "Подбор авто", link: "/shop", icon: "/img/nav-2.svg" },
-  { name: "Отзывы клиентов", link: "/", icon: "/img/nav-3.svg" },
+  { name: "Отзывы клиентов", link: "/reviews", icon: "/img/nav-3.svg" },
   {
     name: "Наши контакты",
     link: "/contacts",
@@ -167,6 +167,7 @@ const hideSubmenu = () => {
   width: 100%;
   height: 100%;
   z-index: 101;
+  pointer-events: none;
 }
 
 .burger_bg {
@@ -180,6 +181,7 @@ const hideSubmenu = () => {
 }
 
 .burger_main {
+  pointer-events: all;
   background-color: $white;
   max-width: 90%;
   border-right: 0.1rem solid $light;

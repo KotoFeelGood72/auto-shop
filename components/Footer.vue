@@ -27,16 +27,15 @@
         </div>
         <div class="footer_col__nav">
           <div class="footer_col__title">Навигация</div>
-          <NuxtLink to="/">О компании </NuxtLink>
-          <NuxtLink to="/">Каталог авто </NuxtLink>
-          <NuxtLink to="/">Отзывы клиентов </NuxtLink>
-          <NuxtLink to="/">Наши контакты </NuxtLink>
-          <NuxtLink to="/">Доставка </NuxtLink>
+          <NuxtLink to="/about">О компании </NuxtLink>
+          <NuxtLink to="/shop">Каталог авто </NuxtLink>
+          <NuxtLink to="/reviews">Отзывы клиентов </NuxtLink>
+          <NuxtLink to="/contacts">Наши контакты </NuxtLink>
         </div>
         <div class="footer_col__nav">
           <div class="footer_col__title">Гарантии</div>
-          <NuxtLink to="/">Схема поставки </NuxtLink>
-          <NuxtLink to="/">Проверка пробега</NuxtLink>
+          <NuxtLink to="/reference/shield">Наши гарантии </NuxtLink>
+          <NuxtLink to="/reference/sheme">Схема поставки </NuxtLink>
         </div>
         <div class="footer_col__socials">
           <div class="footer_col__title">Социальные сети</div>

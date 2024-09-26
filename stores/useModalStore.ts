@@ -3,6 +3,9 @@ import { defineStore } from "pinia";
 interface ModalsState {
   burger: boolean;
   filter: boolean;
+  modalCallback: boolean;
+  modalConsult: boolean;
+  ModalCar: boolean;
 }
 
 export const useModalStore = defineStore("modal", {
@@ -10,6 +13,9 @@ export const useModalStore = defineStore("modal", {
     modals: {
       burger: false,
       filter: false,
+      modalCallback: false,
+      modalConsult: false,
+      ModalCar: false,
     },
   }),
   actions: {

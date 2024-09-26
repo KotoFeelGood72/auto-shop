@@ -34,14 +34,4 @@ const isAboutPage = computed(() => {
 .layout-leave-to {
   opacity: 0;
 }
-
-.page-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(81, 81, 81, 0.164);
-  z-index: 99;
-}
 </style>

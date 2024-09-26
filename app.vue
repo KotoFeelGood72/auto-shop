@@ -7,11 +7,22 @@
     <transition name="slide-left">
       <Burger v-if="modals.burger" />
     </transition>
+    <transition name="slide-top">
+      <ModalCallback v-if="modals.modalCallback || modals.modalConsult" />
+    </transition>
+    <transition name="slide-top">
+      <ModalCar v-if="modals.ModalCar" />
+    </transition>
+    <transition name="fade-bg">
+      <div v-if="isModalActive" class="page-bg" @click="closeAllModals"></div>
+    </transition>
   </NuxtLayout>
 </template>
 
 <script lang="ts" setup>
 import ModalFilter from "./components/ModalFilter.vue";
+import ModalCallback from "./components/ModalCallback.vue";
+import ModalCar from "./components/ModalCar.vue";
 import { useModalStore, useModalStoreRefs } from "@/stores/useModalStore";
 import Burger from "./components/Burger.vue";
 import { useRoute } from "vue-router";
@@ -19,6 +30,10 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 const { closeAllModals } = useModalStore();
 const { modals } = useModalStoreRefs();
+
+const isModalActive = computed(() => {
+  return Object.values(modals.value).some((isActive) => isActive);
+});
 
 watch(
   () => route.fullPath,
@@ -29,6 +44,30 @@ watch(
 </script>
 
 <style lang="scss">
+.page-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #0000008e; /* затемнённый фон */
+  z-index: 99;
+}
+
+.fade-bg-enter-active,
+.fade-bg-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-bg-enter-from,
+.fade-bg-leave-to {
+  opacity: 0;
+}
+
+.fade-bg-enter-to,
+.fade-bg-leave-from {
+  opacity: 1;
+}
 .fixed {
   overflow: hidden;
   @include bp($point_5, $direction: min) {
@@ -151,6 +190,10 @@ h5,
 h6 {
   font-size: 3.2rem;
   font-family: $font_5;
+
+  @include bp($point_2) {
+    font-size: 2.4rem;
+  }
 }
 
 .filter_main {
@@ -236,5 +279,33 @@ h6 {
   @include bp($point_2) {
     overflow-x: hidden;
   }
+}
+
+.slide-top-enter-active,
+.slide-top-leave-active {
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+/* Когда элемент только появляется, сдвигаем его за пределы экрана */
+.slide-top-enter-from {
+  transform: translateY(-10%);
+  opacity: 0;
+}
+
+/* После завершения анимации элемент находится в исходном положении */
+.slide-top-enter-to {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Когда элемент закрывается, он снова сдвигается за пределы экрана */
+.slide-top-leave-from {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.slide-top-leave-to {
+  transform: translateY(-10%);
+  opacity: 0;
 }
 </style>

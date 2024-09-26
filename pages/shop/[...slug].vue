@@ -121,8 +121,15 @@
         <div class="cars__action">
           <div class="cars__price">2 179 000 ₽</div>
           <div class="cars__action__btns">
-            <Button name="Консультация бесплатно" />
-            <Button name="Оставить заявку" class="secondary" />
+            <Button
+              name="Консультация бесплатно"
+              @click="openModal('modalConsult')"
+            />
+            <Button
+              name="Оставить заявку"
+              class="secondary"
+              @click="openModal('ModalCar')"
+            />
           </div>
         </div>
       </div>
@@ -144,6 +151,9 @@ import Button from "~/components/Button.vue";
 import { Navigation, Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import CardCar from "~/components/CardCar.vue";
+import { useModalStoreRefs, useModalStore } from "@/stores/useModalStore";
+
+const { openModal } = useModalStore();
 
 const thumbsSwiper = ref(null);
 const thumbsDirection = ref("vertical");
