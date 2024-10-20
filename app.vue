@@ -23,12 +23,14 @@
 import ModalFilter from "./components/ModalFilter.vue";
 import ModalCallback from "./components/ModalCallback.vue";
 import ModalCar from "./components/ModalCar.vue";
-import { useModalStore, useModalStoreRefs } from "@/stores/useModalStore";
+import { useModalStore, useModalStoreRefs } from "~/store/useModalStore";
+import {useCarsStore} from '~/store/useCarStore'
 import Burger from "./components/Burger.vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
 const { closeAllModals } = useModalStore();
+const { getCars } = useCarsStore();
 const { modals } = useModalStoreRefs();
 
 const isModalActive = computed(() => {
@@ -41,6 +43,10 @@ watch(
     closeAllModals();
   }
 );
+
+onMounted(async () => {
+  await getCars()
+})
 </script>
 
 <style lang="scss">

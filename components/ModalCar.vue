@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { useModalStoreRefs, useModalStore } from "@/stores/useModalStore";
+import { useModalStoreRefs, useModalStore } from "~/store/useModalStore";
 
 const { modals } = useModalStoreRefs();
 const { closeAllModals } = useModalStore();

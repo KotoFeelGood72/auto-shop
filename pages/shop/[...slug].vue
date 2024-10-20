@@ -151,7 +151,7 @@ import Button from "~/components/Button.vue";
 import { Navigation, Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import CardCar from "~/components/CardCar.vue";
-import { useModalStoreRefs, useModalStore } from "@/stores/useModalStore";
+import { useModalStoreRefs, useModalStore } from "~/store/useModalStore";
 
 const { openModal } = useModalStore();
 

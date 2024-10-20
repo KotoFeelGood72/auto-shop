@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { useModalStore } from "@/stores/useModalStore";
+import { useModalStore } from "~/store/useModalStore";
 
 const { openModal } = useModalStore();
 </script>

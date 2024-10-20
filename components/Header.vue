@@ -106,7 +106,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import Button from "./Button.vue";
-import { useModalStore } from "@/stores/useModalStore";
+import { useModalStore } from "~/store/useModalStore";
 
 // Массив с данными для навигации
 const nav = ref([

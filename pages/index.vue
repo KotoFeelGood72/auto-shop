@@ -84,8 +84,8 @@
           </div>
         </div>
         <ul class="cars_grid">
-          <li v-for="(item, i) in 16" :key="'cars-item-' + i">
-            <CardCar :data="car" />
+          <li v-for="(item, i) in cars" :key="'cars-item-' + i">
+            <CardCar :data="item" />
           </li>
         </ul>
         <Pagination
@@ -217,6 +217,9 @@ import Pagination from "~/components/Pagination.vue";
 import TimeSelect from "~/components/TimeSelect.vue";
 import Accardion from "~/components/Accardion.vue";
 import FilterTrigger from "~/components/FilterTrigger.vue";
+import { useCarsStore, useCarsStoreRefs } from "~/store/useCarStore";
+
+const {cars} = useCarsStoreRefs()
 
 const options = ["Опция 1", "Опция 2", "Опция 3", "Опция 4"];
 

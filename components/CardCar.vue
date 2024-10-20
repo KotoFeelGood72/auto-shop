@@ -1,16 +1,20 @@
 <template>
   <div class="car">
-    <NuxtLink :to="data.detail">
+    <NuxtLink :to="'/shop/' + data.Id">
       <div class="car_img">
-        <img class="full" :src="data.img" alt="" />
+        <img class="full" :src="data.photos[0].path" :alt="data.photos[0].code" />
       </div>
       <div class="car_content">
-        <h3>{{ data.title }}</h3>
-        <p>{{ data.year }}</p>
+        <h3>{{ data.name }}</h3>
+        <p>{{ data.formYear }}</p>
         <ul>
-          <li v-for="item in data.character">
-            <img :src="item.icon" />
-            <p>{{ item.name }}</p>
+          <li >
+            <div class="character_icon"><Icon name="clarity:fuel-line"/></div>
+            <p>{{ data.engineFuel }}</p>
+          </li>
+          <li >
+            <div class="character_icon"><Icon name="ph:engine"/></div>
+            <p>{{ data.engineVolumeLiters }}</p>
           </li>
         </ul>
         <div class="car_link">
@@ -22,7 +26,7 @@
           </ClientOnly>
         </div>
         <div class="car_bottom">
-          <div class="car_price">{{ data.price }} ₽</div>
+          <div class="car_price">{{ data.priceRUB }} ₽</div>
           <div class="car_details">Подробнее</div>
         </div>
       </div>

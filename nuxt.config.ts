@@ -22,6 +22,19 @@ export default defineNuxtConfig({
     "@pinia-plugin-persistedstate/nuxt",
     "vue-yandex-maps/nuxt"
   ],
+  runtimeConfig: {
+    public: {
+      BASE_URL: process.env.BASE_URL,
+    },
+  },
+  nitro: {
+    devProxy: {
+      "/api/": {
+        target: process.env.BASE_URL,
+        changeOrigin: true,
+      },
+    },
+  },
   yandexMaps: {
     apikey: 'de0ee812-515f-4988-a580-639be65741a6',
   },

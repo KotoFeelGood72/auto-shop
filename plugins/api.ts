@@ -5,13 +5,9 @@ export default defineNuxtPlugin((nuxtApp) => {
   // const { user } = useUserStoreRefs();
 
   // Создаем основной экземпляр axios
-  // const main = axios.create({
-  //   baseURL: "/api/",
-  //   params: {
-  //     username: config.public.CONSUMER_KEY, // Consumer Key
-  //     password: config.public.CONSUMER_SECRET,
-  //   },
-  // });
+  const main = axios.create({
+    baseURL: '/api/',
+  });
 
   // Создаем экземпляр axios для домена
   // const domain = axios.create({
@@ -43,7 +39,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   return {
     provide: {
-      // main,
+      main,
       // domain,
     },
   };

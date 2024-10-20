@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import Filters from "./Filters.vue";
-import { useModalStore } from "@/stores/useModalStore";
+import { useModalStore } from "~/store/useModalStore";
 
 const { closeModal } = useModalStore();
 </script>

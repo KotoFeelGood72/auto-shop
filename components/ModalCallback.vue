@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { useModalStoreRefs, useModalStore } from "@/stores/useModalStore";
+import { useModalStoreRefs, useModalStore } from "~/store/useModalStore";
 
 const { modals } = useModalStoreRefs();
 const { closeAllModals } = useModalStore();
@@ -53,7 +53,7 @@ const { closeAllModals } = useModalStore();
 .modalCallback__main {
   background-color: $light;
   border-radius: 2rem;
-  padding: 3rem 10rem;
+  padding: 3rem ;
   position: relative;
   pointer-events: all;
 
