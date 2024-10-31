@@ -2,7 +2,7 @@
   <div class="modalCar">
     <div class="modalCar__main">
       <div class="modalCar__close" @click="closeAllModals()">
-        <Icon name="material-symbols-light:close" :size="40" />
+        <Icons icon="material-symbols-light:close" :size="40" />
       </div>
       <div class="modalCar__head">
         <h3>Оставить заявку</h3>

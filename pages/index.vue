@@ -33,44 +33,11 @@
         </div>
       </div>
     </section>
-    <section class="filter">
-      <div class="container">
-        <div class="filter_main">
-          <h2>Каталог авто</h2>
-          <div class="filter_grid">
-            <div class="filter_col">
-              <Selects :options="options" placeholder="Модель" />
-              <Selects :options="options" placeholder="Тип топлива" />
-              <div class="filter_col__row">
-                <Inputs place="Пробег от" />
-                <Inputs place="Пробег до" />
-              </div>
-            </div>
-            <div class="filter_col">
-              <Selects :options="options" placeholder="Марка" />
-              <Selects :options="options" placeholder="Привод" />
-              <div class="filter_col__row">
-                <Inputs place="Объем от" />
-                <Inputs place="Объем до" />
-              </div>
-            </div>
-            <div class="filter_col">
-              <div class="filter_col__row">
-                <Inputs place="Год от" />
-                <Inputs place="Год до" />
-              </div>
-              <Selects :options="options" placeholder="Трансмиссия" />
-              <div class="filter_col__row">
-                <Inputs place="Цена от" />
-                <Inputs place="Цена до" />
-              </div>
-            </div>
-          </div>
-          <div class="filter-btn">
-            <Button name="Показать результат" />
-          </div>
-        </div>
-      </div>
+    <section>
+    <div class="container">
+    
+   <Filters/>
+    </div>
     </section>
     <section class="cars">
       <div class="container">
@@ -91,7 +58,7 @@
         <Pagination
           :totalPages="34"
           :currentPage="currentPage"
-          @updatePage="handlePageChange"
+          @updatePage="selectPages()"
         />
       </div>
     </section>
@@ -217,30 +184,16 @@ import Pagination from "~/components/Pagination.vue";
 import TimeSelect from "~/components/TimeSelect.vue";
 import Accardion from "~/components/Accardion.vue";
 import FilterTrigger from "~/components/FilterTrigger.vue";
+import Filters from "~/components/Filters.vue";
 import { useCarsStore, useCarsStoreRefs } from "~/store/useCarStore";
 
-const {cars} = useCarsStoreRefs()
+const {cars, currentPage} = useCarsStoreRefs()
+const {changePage} = useCarsStore()
 
-const options = ["Опция 1", "Опция 2", "Опция 3", "Опция 4"];
 
-const car = ref<any>({
-  price: "5 750 000",
-  title: "Toyota RAV4",
-  year: "2017",
-  img: "/img/car.png",
-  link: "https://www.google.ru/",
-  detail: "/",
-  character: [
-    { icon: "/img/engine.svg", name: "2,3 л/бензин" },
-    { icon: "/img/wheel.svg", name: "317 л.с." },
-  ],
-});
-
-const currentPage = ref(3);
-
-const handlePageChange = (page: number) => {
-  currentPage.value = page;
-};
+const selectPages = (page: number) => {
+  console.log(page)
+}
 </script>
 
 <style scoped lang="scss">

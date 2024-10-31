@@ -2,7 +2,7 @@
   <div class="custom-select" :class="{ isOpen: isOpen }" ref="selectBox">
     <div class="select-box" @click="toggleDropdown">
       <p class="selected">{{ selectedOption || placeholder }}</p>
-      <Icon name="line-md:chevron-down" class="chevron" />
+      <Icons icon="line-md:chevron-down" class="chevron" />
     </div>
     <ul v-if="isOpen" class="options">
       <li
@@ -27,6 +27,9 @@ const props = defineProps<{
   placeholder: string;
 }>();
 
+// Эмит для передачи данных в родительский компонент
+const emit = defineEmits(['update:modelValue']);
+
 // Переменные состояния
 const isOpen = ref(false);
 const selectedOption = ref<string | null>(null);
@@ -41,6 +44,7 @@ const toggleDropdown = (event: MouseEvent) => {
 const selectOption = (option: string) => {
   selectedOption.value = option;
   isOpen.value = false;
+  emit('update:modelValue', option);  // Эмитим событие для родительского компонента
 };
 
 // Функция для закрытия dropdown при клике вне компонента
@@ -67,6 +71,7 @@ onBeforeUnmount(() => {
   window.removeEventListener("scroll", handleScroll);
 });
 </script>
+
 
 <style scoped lang="scss">
 .custom-select {

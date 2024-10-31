@@ -1,11 +1,12 @@
 <template>
   <div class="pagination">
+  {{ currentPage }}
     <button
       class="pagination-button"
       @click="prevPage"
       :disabled="currentPage === 1"
     >
-      <Icon name="carbon:arrow-left" />
+      <Icons icon="carbon:arrow-left" />
     </button>
     <div class="pagination__numbers">
       <span
@@ -46,7 +47,7 @@
       @click="nextPage"
       :disabled="currentPage === totalPages"
     >
-      <Icon name="carbon:arrow-right" />
+      <Icons icon="carbon:arrow-right" />
     </button>
   </div>
 </template>

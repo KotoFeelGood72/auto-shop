@@ -1,11 +1,11 @@
 <template>
-  <div class="cars">
+  <div class="cars" v-if="cars"> 
     <div class="container">
       <div class="cars__head">
-        <h1>Продажа Chery Tiggo 7 Pro, 2021 год в Владивостоке</h1>
+        <h1>{{ cars.name }}, {{ cars.formYear }}</h1>
         <div class="cars__param">
-          Объявление 761329879 от 17.07.2024
-          <div class="eye"><Icon name="mdi:eye" /> 9</div>
+          Объявление {{cars.vehicleId}} от {{ formattedDate }}
+          <div class="eye"><Icons icon="mdi:eye" /> 9</div>
         </div>
       </div>
       <div class="cars__main">
@@ -32,10 +32,10 @@
               @swiper="setThumbsSwiper"
             >
               <SwiperSlide
-                v-for="(image, i) in 4"
+                v-for="(image, i) in cars.photos"
                 :key="'single-thumb-slide-' + i"
               >
-                <img :src="`/img/car-gallery.jpg`" alt="" class="full" />
+                <img :src="image.path" :alt="image.code" class="full" />
               </SwiperSlide>
             </Swiper>
           </div>
@@ -52,45 +52,49 @@
                   nextEl: `.next`,
                 }"
               >
-                <SwiperSlide
-                  v-for="(image, i) in 4"
-                  :key="'single-item-slide-' + i"
-                >
-                  <img :src="`/img/car-gallery.jpg`" alt="" class="full" />
-                </SwiperSlide>
+              <SwiperSlide
+                v-for="(image, i) in cars.photos"
+                :key="'single-thumb-slide-' + i"
+              >
+                <img :src="image.path" :alt="image.code" class="full" />
+              </SwiperSlide>
               </Swiper>
             </div>
             <div class="cars__nav">
               <div class="cars__btn prev">
-                <Icon name="fluent:chevron-left-16-regular" />
+                <Icons icon="fluent:chevron-left-16-regular" />
               </div>
               <div class="cars__btn next">
-                <Icon name="fluent:chevron-right-16-regular" />
+                <Icons icon="fluent:chevron-right-16-regular" />
               </div>
             </div>
           </div>
           <div class="share_car">
-            <Icon name="material-symbols:share" :size="24" />
+            <Icons icon="material-symbols:share" :size="24" />
             <p>Поделиться объявлением</p>
           </div>
         </div>
         <div class="cars__params">
           <ul>
             <li>
+              <p>Год:</p>
+              <span>{{cars.formYear}}</span>
+            </li>
+            <li>
+              <p>Возраст (лет):</p>
+              <span>{{cars.age}}</span>
+            </li>
+            <li>
               <p>Двигатель:</p>
-              <span>Бензиновый (1.5 м³)</span>
+              <span>{{cars.engineFuel}} ({{ cars.engineVolumeLiters }} м³)</span>
             </li>
             <li>
               <p>Мощность:</p>
               <span>147 л.с.</span>
             </li>
             <li>
-              <p>Год:</p>
-              <span>2017</span>
-            </li>
-            <li>
               <p>Пробег:</p>
-              <span>40 000 км</span>
+              <span>{{ formattedMileage }}</span>
             </li>
             <li>
               <p>Коробка передач:</p>
@@ -102,7 +106,7 @@
             </li>
             <li>
               <p>Цвет:</p>
-              <span>Белый</span>
+              <span>{{cars.color}}</span>
             </li>
             <li>
               <p>Руль:</p>
@@ -113,13 +117,13 @@
               <span>Ultimate</span>
             </li>
             <li>
-              <p>Владельцы:</p>
-              <span>1 владелец</span>
+              <p>VIN или номер кузова:</p>
+              <span>{{ cars.VIN }}</span>
             </li>
           </ul>
         </div>
         <div class="cars__action">
-          <div class="cars__price">2 179 000 ₽</div>
+          <div class="cars__price">{{ formatPrice(cars.summary.totalVladivostok) }}</div>
           <div class="cars__action__btns">
             <Button
               name="Консультация бесплатно"
@@ -152,14 +156,21 @@ import { Navigation, Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import CardCar from "~/components/CardCar.vue";
 import { useModalStoreRefs, useModalStore } from "~/store/useModalStore";
+import { useCarsStore } from "~/store/useCarStore";
+import { useRoute } from "vue-router";
 
 const { openModal } = useModalStore();
+const { getCarById } = useCarsStore()
 
 const thumbsSwiper = ref(null);
-const thumbsDirection = ref("vertical");
+const thumbsDirection = ref<any>("vertical");
 const setThumbsSwiper = (swiper: any) => {
   thumbsSwiper.value = swiper;
 };
+
+const route = useRoute()
+
+const cars = ref<any>(null)
 
 const car = ref<any>({
   price: "5 750 000",
@@ -173,6 +184,44 @@ const car = ref<any>({
     { icon: "/img/wheel.svg", name: "317 л.с." },
   ],
 });
+
+
+const formattedDate = computed(() => {
+  const date = new Date(cars.value.registerDate);
+  return date.toLocaleDateString('ru-RU', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  }) ;
+});
+
+const formatPrice = (price: number) => {
+  return new Intl.NumberFormat('ru-RU', {
+    style: 'currency',
+    currency: 'RUB',
+    minimumFractionDigits: 0, 
+    maximumFractionDigits: 0, 
+  }).format(price);
+};
+
+const formattedMileage = computed(() => {
+      const mileageStr = cars.value.mileage.toString();
+      if (mileageStr.length === 5) {
+        // Форматирование для 5-значных чисел, разделение на две группы (2 и 3 числа)
+        return `${mileageStr.slice(0, 2)} ${mileageStr.slice(2)} км`;
+      } else if (mileageStr.length === 6) {
+        // Форматирование для 6-значных чисел, разделение на три группы (3 и 3 числа)
+        return `${mileageStr.slice(0, 3)} ${mileageStr.slice(3)} км`;
+      }
+      return `${mileageStr} км`; // На случай других длин числа
+    });
+
+
+onMounted(async() => {
+  cars.value = await getCarById(String(route.params.slug))
+
+  console.log(cars.value)
+})
 </script>
 
 <style scoped lang="scss">

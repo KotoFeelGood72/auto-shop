@@ -30,7 +30,7 @@ import { useRoute } from "vue-router";
 
 const route = useRoute();
 const { closeAllModals } = useModalStore();
-const { getCars } = useCarsStore();
+const { getCars, getOption } = useCarsStore();
 const { modals } = useModalStoreRefs();
 
 const isModalActive = computed(() => {
@@ -46,6 +46,7 @@ watch(
 
 onMounted(async () => {
   await getCars()
+  await getOption()
 })
 </script>
 

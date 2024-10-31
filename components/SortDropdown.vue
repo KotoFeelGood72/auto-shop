@@ -2,8 +2,8 @@
   <div class="sort-dropdown" :class="[{ isOpen: isOpen }]">
     <div class="sort-header" @click="toggleDropdown">
       <div class="sort_icon">
-        <Icon
-          name="fluent:arrow-sort-16-regular"
+        <Icons
+          icon="fluent:arrow-sort-16-regular"
           class="sort-icon"
           :size="30"
         />
@@ -18,9 +18,9 @@
         @click="selectOption(option)"
       >
         {{ option.label }}
-        <Icon
+        <Icons
           v-if="selectedOption.value === option.value"
-          name="line-md:check"
+          icon="line-md:check"
           class="check-icon"
         />
       </li>

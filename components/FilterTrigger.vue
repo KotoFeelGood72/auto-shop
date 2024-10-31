@@ -2,7 +2,7 @@
   <div class="filter_trigger" @click="openModal('filter')">
     <p>Фильтры</p>
     <div class="filter_trigger__icon">
-      <Icon name="fluent:chevron-down-48-regular" />
+      <Icons icon="fluent:chevron-down-48-regular" />
     </div>
   </div>
 </template>

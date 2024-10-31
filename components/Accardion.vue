@@ -4,9 +4,9 @@
       <div class="accordion-header" @click="toggleItem(index)">
         <span>{{ item.question }}</span>
         <div class="accordion-icon">
-          <Icon
+          <Icons
             :size="40"
-            :name="activeIndex === index ? 'ic:round-minus' : 'ic:round-plus'"
+            :icon="activeIndex === index ? 'ic:round-minus' : 'ic:round-plus'"
           />
         </div>
       </div>

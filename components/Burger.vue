@@ -14,7 +14,7 @@
             </NuxtLink>
           </div>
           <div class="burger__close" @click="closeModal('burger')">
-            <Icon name="material-symbols:close" :size="30" />
+            <Icons icon="material-symbols:close" :size="30" />
           </div>
         </div>
         <div class="burger_bottom">

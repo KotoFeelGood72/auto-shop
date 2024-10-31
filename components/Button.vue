@@ -1,7 +1,7 @@
 <template>
   <div class="button" @click="sendEvent">
     <div class="btn-icon" v-if="load">
-      <Icon name="line-md:loading-twotone-loop" />
+      <Icons icon="line-md:loading-twotone-loop" />
     </div>
     <p>{{ name }}</p>
   </div>

@@ -7,7 +7,7 @@
     >
       <!-- Отображаем "С" перед выбранным временем, если startTime выбрано -->
       <p>{{ startTime ? "С " + startTime : "С " + availableStartTimes[0] }}</p>
-      <Icon name="fluent:chevron-down-28-regular" class="icon" :size="26" />
+      <Icons icon="fluent:chevron-down-28-regular" class="icon" :size="26" />
       <ul v-if="isDropdownOpen === 'start'" class="dropdown">
         <li
           v-for="time in availableStartTimes"
@@ -33,7 +33,7 @@
             : "До " + availableEndTimes[availableEndTimes.length - 1]
         }}
       </p>
-      <Icon name="fluent:chevron-down-28-regular" class="icon" :size="26" />
+      <Icons icon="fluent:chevron-down-28-regular" class="icon" :size="26" />
       <ul v-if="isDropdownOpen === 'end'" class="dropdown">
         <li
           v-for="time in availableEndTimes"

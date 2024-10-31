@@ -3,7 +3,7 @@
     <!-- <div class="modal_filter__bg" @click="closeModal('filter')"></div> -->
     <div class="modal_filter__main">
       <div class="modal_filter__close" @click="closeModal('filter')">
-        <Icon name="material-symbols:close" :size="30" />
+        <Icons icon="material-symbols:close" :size="30" />
       </div>
       <Filters />
     </div>

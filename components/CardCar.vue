@@ -1,19 +1,19 @@
 <template>
-  <div class="car">
-    <NuxtLink :to="'/shop/' + data.Id">
+  <div class="car" v-if="data">
+    <NuxtLink :to="'/shop/' + data.id">
       <div class="car_img">
-        <img class="full" :src="data.photos[0].path" :alt="data.photos[0].code" />
+        <img class="full" :src="data.photos?.[0].path" :alt="data.photos?.[0].code" />
       </div>
       <div class="car_content">
         <h3>{{ data.name }}</h3>
         <p>{{ data.formYear }}</p>
         <ul>
           <li >
-            <div class="character_icon"><Icon name="clarity:fuel-line"/></div>
+            <div class="character_icon"><Icons icon="clarity:fuel-line"/></div>
             <p>{{ data.engineFuel }}</p>
           </li>
           <li >
-            <div class="character_icon"><Icon name="ph:engine"/></div>
+            <div class="character_icon"><Icons icon="ph:engine"/></div>
             <p>{{ data.engineVolumeLiters }}</p>
           </li>
         </ul>
@@ -26,7 +26,7 @@
           </ClientOnly>
         </div>
         <div class="car_bottom">
-          <div class="car_price">{{ data.priceRUB }} ₽</div>
+          <div class="car_price">{{ formatPrice(data.summary?.totalVladivostok) }}</div>
           <div class="car_details">Подробнее</div>
         </div>
       </div>
@@ -38,6 +38,17 @@
 defineProps<{
   data: any;
 }>();
+
+const formatPrice = (price: number) => {
+  return new Intl.NumberFormat('ru-RU', {
+    style: 'currency',
+    currency: 'RUB',
+    minimumFractionDigits: 0, 
+    maximumFractionDigits: 0, 
+  }).format(price);
+};
+
+
 </script>
 
 <style scoped lang="scss">
@@ -54,8 +65,15 @@ defineProps<{
   padding: 1rem 1.9rem 1.8rem 1.9rem;
 
   h3 {
-    font-size: 2rem;
-    font-family: $font_5;
+  font-size: 2rem;
+  font-family: $font_5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  min-height: 5.3rem;
   }
   & > p {
     font-size: 1.4rem;

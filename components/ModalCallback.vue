@@ -2,7 +2,7 @@
   <div class="modalCallback">
     <div class="modalCallback__main">
       <div class="modalCallback__close" @click="closeAllModals()">
-        <Icon name="material-symbols-light:close" :size="40" />
+        <Icons icon="material-symbols-light:close" :size="40" />
       </div>
       <div class="modalCallback__head">
         <h3>

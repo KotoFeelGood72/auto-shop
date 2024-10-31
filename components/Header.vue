@@ -11,7 +11,7 @@
                 <span>Авто из Кореи</span>
                 <div class="stars">
                   <div class="stars__icon">
-                    <Icon name="wpf:star" :size="20" />
+                    <Icons icon="wpf:star" :size="20" />
                   </div>
                   <div class="star__txt">
                     4,7
