@@ -9,12 +9,12 @@
       </div>
       <div class="modal__row">
         <div class="modal__img">
-          <img :src="`/img/car-gallery.jpg`" alt="" class="full" />
+          <img :src="car.photos[0].path"  class="full" />
         </div>
         <div class="modal_form__w">
           <div class="modalForm__head">
-            <h3>Продажа Chery Tiggo 7 Pro, 2021 год в Владивостоке</h3>
-            <div class="price">2 179 000 ₽</div>
+            <h3>{{ car.name }}, {{  car.year }}</h3>
+            <div class="price">{{ formatPrice(car.summary.totalVladivostok) }}</div>
           </div>
           <div class="modalCar__form">
             <Inputs place="Номер телефона" />
@@ -36,9 +36,20 @@
 
 <script setup lang="ts">
 import { useModalStoreRefs, useModalStore } from "~/store/useModalStore";
+import { useCarsStoreRefs } from "~/store/useCarStore";
 
 const { modals } = useModalStoreRefs();
 const { closeAllModals } = useModalStore();
+const {car} = useCarsStoreRefs()
+
+const formatPrice = (price: number) => {
+  return new Intl.NumberFormat('ru-RU', {
+    style: 'currency',
+    currency: 'RUB',
+    minimumFractionDigits: 0, 
+    maximumFractionDigits: 0, 
+  }).format(price);
+};
 </script>
 
 <style scoped lang="scss">

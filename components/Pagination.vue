@@ -1,6 +1,5 @@
 <template>
   <div class="pagination">
-  {{ currentPage }}
     <button
       class="pagination-button"
       @click="prevPage"
@@ -53,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, nextTick } from "vue";
 
 const props = defineProps<{
   totalPages: number;
@@ -63,10 +62,25 @@ const props = defineProps<{
 const emit = defineEmits(["updatePage"]);
 const maxVisiblePages = 5;
 
+const scrollToBlock = async () => {
+  await nextTick(); // Дожидаемся завершения рендера
+
+  // Находим элемент по ref и прокручиваем к нему
+  const targetElement = document.querySelector("#scrollTarget") as HTMLElement;
+  if (targetElement) {
+    targetElement.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }
+};
+
+
 // Функция для перехода на предыдущую страницу
 const prevPage = () => {
   if (props.currentPage > 1) {
     emit("updatePage", props.currentPage - 1);
+    scrollToBlock()
   }
 };
 
@@ -74,6 +88,7 @@ const prevPage = () => {
 const nextPage = () => {
   if (props.currentPage < props.totalPages) {
     emit("updatePage", props.currentPage + 1);
+    scrollToBlock()
   }
 };
 
@@ -81,6 +96,7 @@ const nextPage = () => {
 const selectPage = (page: number) => {
   if (page !== props.currentPage) {
     emit("updatePage", page);
+    scrollToBlock()
   }
 };
 

@@ -1,6 +1,6 @@
 <template>
   <div class="car" v-if="data">
-    <NuxtLink :to="'/shop/' + data.id">
+    <NuxtLink :to="'/shop/' + data.vehicleId">
       <div class="car_img">
         <img class="full" :src="data.photos?.[0].path" :alt="data.photos?.[0].code" />
       </div>
@@ -10,7 +10,7 @@
         <ul>
           <li >
             <div class="character_icon"><Icons icon="clarity:fuel-line"/></div>
-            <p>{{ data.engineFuel }}</p>
+            <p>{{ data.fuel }}</p>
           </li>
           <li >
             <div class="character_icon"><Icons icon="ph:engine"/></div>

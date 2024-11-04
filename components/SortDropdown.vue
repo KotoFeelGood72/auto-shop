@@ -76,7 +76,11 @@ onBeforeUnmount(() => {
 <style scoped lang="scss">
 .sort-dropdown {
   position: relative;
-  // min-width: 23rem;
+  
+  @include bp($point_2, $direction:min) {
+    min-width: 23rem;
+
+  }
 
   .sort-header {
     @include flex-end;

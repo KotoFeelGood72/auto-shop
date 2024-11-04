@@ -39,7 +39,7 @@
    <Filters/>
     </div>
     </section>
-    <section class="cars">
+    <section class="cars" ref="scrollTarget" id="scrollTarget">
       <div class="container">
         <div class="cars_head">
           <h2>Найдено: 24 346 автомобилей</h2>
@@ -58,7 +58,8 @@
         <Pagination
           :totalPages="34"
           :currentPage="currentPage"
-          @updatePage="selectPages()"
+          :pageSize="16"
+          @updatePage="changePage"
         />
       </div>
     </section>
@@ -189,11 +190,6 @@ import { useCarsStore, useCarsStoreRefs } from "~/store/useCarStore";
 
 const {cars, currentPage} = useCarsStoreRefs()
 const {changePage} = useCarsStore()
-
-
-const selectPages = (page: number) => {
-  console.log(page)
-}
 </script>
 
 <style scoped lang="scss">

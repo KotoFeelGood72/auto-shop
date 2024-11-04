@@ -42,7 +42,7 @@
 import { ref } from "vue";
 import { useCarsStore } from "~/store/useCarStore";
 
-const {getCars} = useCarsStore()
+const {getCars, getFilters, sendMark} = useCarsStore()
 
 
 // Реактивный объект фильтров
@@ -70,7 +70,7 @@ const transmissionOptions = ["Автомат", "Механика"];
 
 const applyFilters = () => {
   getCars(filters.value)
-
+  getFilters()
 };
 </script>
 

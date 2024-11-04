@@ -27,6 +27,9 @@ import { useModalStore, useModalStoreRefs } from "~/store/useModalStore";
 import {useCarsStore} from '~/store/useCarStore'
 import Burger from "./components/Burger.vue";
 import { useRoute } from "vue-router";
+import { Fancybox } from "@fancyapps/ui";
+import "@fancyapps/ui/dist/fancybox/fancybox.css";
+
 
 const route = useRoute();
 const { closeAllModals } = useModalStore();
@@ -44,6 +47,8 @@ watch(
   }
 );
 
+Fancybox.bind("[data-fancybox]");
+
 onMounted(async () => {
   await getCars()
   await getOption()
@@ -51,6 +56,16 @@ onMounted(async () => {
 </script>
 
 <style lang="scss">
+
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.4s;
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+}
+
 .page-bg {
   position: fixed;
   top: 0;

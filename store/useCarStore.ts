@@ -10,25 +10,23 @@ export const useCarsStore = defineStore("cars", {
     options: null as any
   }),
   actions: {
-    // Метод для получения автомобилей
-    async getCars(filters = {}) {
+    // Метод для получения автомобилей с возможностью указания страницы
+    async getCars(filters = {}, page = this.currentPage) {
       const { $main } = useNuxtApp();
 
       // Добавляем параметры по умолчанию
       const defaultFilters = {
-        page: this.currentPage,  // Используем текущую страницу из состояния
+        page: page,          // Используем переданную страницу или текущую из состояния
         page_size: this.pageSize,  // Используем размер страницы из состояния
-        ...filters,  // Включаем переданные фильтры
+        ...filters,          // Включаем переданные фильтры
       };
 
       // Фильтруем объект фильтров, удаляя пустые значения
       const cleanedFilters = Object.fromEntries(
         Object.entries(defaultFilters).filter(
-          ([, value]) => value !== null && value !== undefined && value !== ''  // Убираем пустые, null и undefined значения
+          ([, value]) => value !== null && value !== undefined   // Убираем пустые, null и undefined значения
         )
       );
-
-      console.log('Фильтры:', cleanedFilters);  // Для отладки
 
       try {
         // Передаем отфильтрованные query параметры
@@ -48,7 +46,7 @@ export const useCarsStore = defineStore("cars", {
         const response = await $main.get('/options')
         this.options = response.data
       } catch (error) {
-        
+        console.error('Ошибка при получении опций:', error);
       }
     },
 
@@ -56,18 +54,40 @@ export const useCarsStore = defineStore("cars", {
     changePage(newPage: number) {
       if (newPage > 0) {
         this.currentPage = newPage; // Обновляем текущую страницу
-        this.getCars(); // Вызываем метод для получения машин с новой страницей
+        console.log(this.currentPage, 'this.currentPage');
+        this.getCars({}, newPage); // Передаем номер новой страницы в getCars
+      }
+    },
+
+    async getFilters() {
+      const { $main } = useNuxtApp();
+      try {
+        const response = await $main.get('/options');
+        this.options = response.data;
+      } catch (error) {
+        console.error('Ошибка при получении фильтров:', error);
+      }
+    },
+
+    async sendMark(data: any) {
+      const { $main } = useNuxtApp();
+      try {
+        const response = await $main.post('/filter-options', data);
+        return response.data; // Вернем ответ, если необходимо
+      } catch (error) {
+        console.error('Ошибка при отправке запроса:', error);
+        throw error;
       }
     },
 
     // Метод для получения автомобиля по ID
     async getCarById(id: string | number) {
-      const {$main} = useNuxtApp()
+      const { $main } = useNuxtApp();
       try {
-        const response = await $main.get(`/auto/${id}`)
-        return response.data
+        const response = await $main.get(`/auto/${id}`);
+        return response.data;
       } catch (error) {
-        
+        console.error('Ошибка при получении автомобиля:', error);
       }
     },
   },

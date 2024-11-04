@@ -37,4 +37,7 @@ export default defineNuxtConfig({
   yandexMaps: {
     apikey: 'de0ee812-515f-4988-a580-639be65741a6',
   },
+  app: {
+    pageTransition: { name: 'page', mode: 'out-in' }
+  },
 });

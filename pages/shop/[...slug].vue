@@ -1,10 +1,10 @@
 <template>
-  <div class="cars" v-if="cars"> 
+  <div class="cars" v-if="car"> 
     <div class="container">
       <div class="cars__head">
-        <h1>{{ cars.name }}, {{ cars.formYear }}</h1>
+        <h1>{{ car.name }}, {{ car.year }}</h1>
         <div class="cars__param">
-          Объявление {{cars.vehicleId}} от {{ formattedDate }}
+          Объявление {{car.vehicleId}} от {{ formattedDate }}
           <div class="eye"><Icons icon="mdi:eye" /> 9</div>
         </div>
       </div>
@@ -32,7 +32,7 @@
               @swiper="setThumbsSwiper"
             >
               <SwiperSlide
-                v-for="(image, i) in cars.photos"
+                v-for="(image, i) in car.photos"
                 :key="'single-thumb-slide-' + i"
               >
                 <img :src="image.path" :alt="image.code" class="full" />
@@ -53,7 +53,7 @@
                 }"
               >
               <SwiperSlide
-                v-for="(image, i) in cars.photos"
+                v-for="(image, i) in car.photos"
                 :key="'single-thumb-slide-' + i"
               >
                 <img :src="image.path" :alt="image.code" class="full" />
@@ -78,15 +78,15 @@
           <ul>
             <li>
               <p>Год:</p>
-              <span>{{cars.formYear}}</span>
+              <span>{{car.year}}</span>
             </li>
             <li>
               <p>Возраст (лет):</p>
-              <span>{{cars.age}}</span>
+              <span>{{car.age}}</span>
             </li>
             <li>
               <p>Двигатель:</p>
-              <span>{{cars.engineFuel}} ({{ cars.engineVolumeLiters }} м³)</span>
+              <span>{{car.engineFuel}} ({{ car.engineVolumeLiters }} м³)</span>
             </li>
             <li>
               <p>Мощность:</p>
@@ -98,32 +98,32 @@
             </li>
             <li>
               <p>Коробка передач:</p>
-              <span>Вариатор</span>
+              <span>{{car.gearbox}}</span>
             </li>
             <li>
-              <p>Привод:</p>
-              <span>Передний</span>
+              <p>Тип кузова:</p>
+              <span>{{car.body}}</span>
             </li>
             <li>
               <p>Цвет:</p>
-              <span>{{cars.color}}</span>
+              <span>{{car.color}}</span>
             </li>
             <li>
               <p>Руль:</p>
               <span>Левый</span>
             </li>
             <li>
-              <p>Комплектация:</p>
-              <span>Ultimate</span>
+              <p>VIN или номер кузова:</p>
+              <span>{{ car.VIN }}</span>
             </li>
             <li>
-              <p>VIN или номер кузова:</p>
-              <span>{{ cars.VIN }}</span>
+              <p>Был в аренде:</p>
+              <span>{{ car.useRental ? 'Да' : 'Нет' }}</span>
             </li>
           </ul>
         </div>
         <div class="cars__action">
-          <div class="cars__price">{{ formatPrice(cars.summary.totalVladivostok) }}</div>
+          <div class="cars__price">{{ formatPrice(car.summary.totalVladivostok) }}</div>
           <div class="cars__action__btns">
             <Button
               name="Консультация бесплатно"
@@ -156,11 +156,12 @@ import { Navigation, Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import CardCar from "~/components/CardCar.vue";
 import { useModalStoreRefs, useModalStore } from "~/store/useModalStore";
-import { useCarsStore } from "~/store/useCarStore";
+import { useCarsStore, useCarsStoreRefs } from "~/store/useCarStore";
 import { useRoute } from "vue-router";
 
 const { openModal } = useModalStore();
-const { getCarById } = useCarsStore()
+const { getCarById } = useCarsStore();
+const {car} = useCarsStoreRefs()
 
 const thumbsSwiper = ref(null);
 const thumbsDirection = ref<any>("vertical");
@@ -172,22 +173,22 @@ const route = useRoute()
 
 const cars = ref<any>(null)
 
-const car = ref<any>({
-  price: "5 750 000",
-  title: "Toyota RAV4",
-  year: "2017",
-  img: "/img/car.png",
-  link: "https://www.google.ru/",
-  detail: "/",
-  character: [
-    { icon: "/img/engine.svg", name: "2,3 л/бензин" },
-    { icon: "/img/wheel.svg", name: "317 л.с." },
-  ],
-});
+// const car = ref<any>({
+//   price: "5 750 000",
+//   title: "Toyota RAV4",
+//   year: "2017",
+//   img: "/img/car.png",
+//   link: "https://www.google.ru/",
+//   detail: "/",
+//   character: [
+//     { icon: "/img/engine.svg", name: "2,3 л/бензин" },
+//     { icon: "/img/wheel.svg", name: "317 л.с." },
+//   ],
+// });
 
 
 const formattedDate = computed(() => {
-  const date = new Date(cars.value.registerDate);
+  const date = new Date(car.value.registerDateTime);
   return date.toLocaleDateString('ru-RU', {
     day: 'numeric',
     month: 'long',
@@ -205,7 +206,7 @@ const formatPrice = (price: number) => {
 };
 
 const formattedMileage = computed(() => {
-      const mileageStr = cars.value.mileage.toString();
+      const mileageStr = car.value.mileage.toString();
       if (mileageStr.length === 5) {
         // Форматирование для 5-значных чисел, разделение на две группы (2 и 3 числа)
         return `${mileageStr.slice(0, 2)} ${mileageStr.slice(2)} км`;
@@ -218,9 +219,7 @@ const formattedMileage = computed(() => {
 
 
 onMounted(async() => {
-  cars.value = await getCarById(String(route.params.slug))
-
-  console.log(cars.value)
+  car.value = await getCarById(String(route.params.slug))
 })
 </script>
 
