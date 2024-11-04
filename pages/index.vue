@@ -34,15 +34,14 @@
       </div>
     </section>
     <section>
-    <div class="container">
-    
-   <Filters/>
-    </div>
+      <div class="container">
+        <Filters />
+      </div>
     </section>
-    <section class="cars" ref="scrollTarget" id="scrollTarget">
+    <section class="cars" ref="scrollTarget" id="scrollTarget" v-if="cars">
       <div class="container">
         <div class="cars_head">
-          <h2>Найдено: 24 346 автомобилей</h2>
+          <h2>Найдено: {{ cars.total_count }} автомобилей</h2>
           <div class="cars_head__row">
             <FilterTrigger class="home_filter_trigger" />
             <div class="cars_sort">
@@ -51,7 +50,7 @@
           </div>
         </div>
         <ul class="cars_grid">
-          <li v-for="(item, i) in cars" :key="'cars-item-' + i">
+          <li v-for="(item, i) in cars?.cars" :key="'cars-item-' + i">
             <CardCar :data="item" />
           </li>
         </ul>
@@ -177,7 +176,7 @@
 
 <script setup lang="ts">
 import Button from "~/components/Button.vue";
-import Selects from "~/components/Selects.vue";
+// import Selects from "~/components/Selects.vue";
 import Inputs from "~/components/Inputs.vue";
 import CardCar from "~/components/CardCar.vue";
 import SortDropdown from "~/components/SortDropdown.vue";
@@ -188,8 +187,8 @@ import FilterTrigger from "~/components/FilterTrigger.vue";
 import Filters from "~/components/Filters.vue";
 import { useCarsStore, useCarsStoreRefs } from "~/store/useCarStore";
 
-const {cars, currentPage} = useCarsStoreRefs()
-const {changePage} = useCarsStore()
+const { cars, currentPage, isLoading } = useCarsStoreRefs();
+const { changePage } = useCarsStore();
 </script>
 
 <style scoped lang="scss">
