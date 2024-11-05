@@ -4,35 +4,59 @@
     <div class="filter_grid">
       <div class="filter_col">
         <Selects
-          v-model="filters.manufacturer"
-          :options="options?.manufacturers"
+          v-model="manufacturer"
+          :entries="options?.manufacturers"
           placeholder="Марка"
         />
-        <Selects
-          v-model="filters.model"
-          :options="modelOptions"
-          placeholder="Модель"
-        />
+
         <Selects
           v-model="filters.fuel_type"
-          :options="fuelOptions"
+          :options="options?.fuels"
           placeholder="Тип топлива"
         />
         <div class="filter_col__row">
-          <!-- <Inputs v-model="filters.mileage_from" place="Пробег от" /> -->
-          <!-- <Inputs v-model="filters.mileage_to" place="Пробег до" /> -->
+          <Inputs v-model="filters.mileage_from" place="Пробег от" />
+          <Inputs v-model="filters.mileage_to" place="Пробег до" />
         </div>
       </div>
-      <!-- Остальные фильтры остаются без изменений -->
       <div class="filter_col">
         <Selects
+          v-model="filters.model"
+          :entries="models"
+          placeholder="Модель"
+        />
+        <Selects
           v-model="filters.transmission"
-          :options="transmissionOptions"
+          :options="options?.gearboxes"
+          placeholder="Коробка"
+        />
+
+        <div class="filter_col__row">
+          <Inputs v-model="filters.engine_volume_from" place="Обьем от" />
+          <Inputs v-model="filters.engine_volume_to" place="Обьем до" />
+        </div>
+      </div>
+      <div class="filter_col">
+        <div class="filter_col__row">
+          <Selects
+            v-model="filters.year_from"
+            :entries="options?.years"
+            placeholder="Год от"
+          />
+          <Selects
+            v-model="filters.year_to"
+            :entries="options?.years"
+            placeholder="Год до"
+          />
+        </div>
+        <Selects
+          v-model="filters.colors"
+          :options="options?.colors"
           placeholder="Привод"
         />
         <div class="filter_col__row">
-          <!-- <Inputs v-model="filters.engine_volume_from" place="Объем от" /> -->
-          <!-- <Inputs v-model="filters.engine_volume_to" place="Объем до" /> -->
+          <Inputs v-model="filters.price_from" place="Цена от" />
+          <Inputs v-model="filters.price_to" place="Цена до" />
         </div>
       </div>
     </div>
@@ -45,56 +69,53 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { useCarsStore, useCarsStoreRefs } from "~/store/useCarStore";
+import { useRouter, useRoute } from "vue-router";
 
 const { getCars, getFilters, sendMark } = useCarsStore();
-const { options } = useCarsStoreRefs();
+const { options, models } = useCarsStoreRefs();
 
-// Реактивный объект фильтров
+const manufacturer = ref<any>(""); // Объявляем марку
+const router = useRouter();
+const route = useRoute();
+
 const filters = ref({
-  model: "",
+  model: "", // Изначально пусто
+  model_group: "",
+  manufacturer_id: "", // Этот параметр можно обновить при необходимости
+  year_from: "",
+  year_to: "",
   fuel_type: "",
-  mileage_from: null,
-  mileage_to: null,
-  manufacturer: {},
   transmission: "",
-  engine_volume_from: null,
-  engine_volume_to: null,
-  year_from: null,
-  year_to: null,
-  price_from: null,
-  price_to: null,
+  mileage_from: "",
+  mileage_to: "",
+  engine_volume_from: "",
+  engine_volume_to: "",
+  price_from: "",
+  price_to: "",
+  colors: "",
 });
 
-// Опции для выпадающего списка моделей
-const modelOptions = ref([]);
-
-// Watcher для отслеживания изменений в поле manufacturer
-watch(
-  () => filters.value.manufacturer,
-  async (newManufacturer) => {
-    if (newManufacturer) {
-      try {
-        // Отправляем выбранную марку в sendMark и получаем список моделей
-        console.log(filters.value.manufacturer);
-        const response = await sendMark({ manufacturer: newManufacturer });
-        modelOptions.value = response.models; // Обновляем список моделей
-      } catch (error) {
-        console.error("Ошибка при получении моделей:", error);
-      }
-    } else {
-      // Очищаем список моделей, если марка не выбрана
-      modelOptions.value = [];
+// Когда марка меняется, обновляем filters.manufacturer_id
+watch(manufacturer, async (newManufacturer) => {
+  if (newManufacturer) {
+    filters.value.manufacturer_id = newManufacturer.key; // Сохраняем только ключ марки в filters.manufacturer_id
+    try {
+      await sendMark({ manufacturers: newManufacturer.key });
+    } catch (error) {
+      console.error("Ошибка при получении моделей:", error);
     }
+  } else {
+    filters.value.manufacturer_id = ""; // Если марка сброшена, очищаем filters.manufacturer_id
   }
-);
-
-// Пример данных для других выпадающих списков
-const fuelOptions = ["Бензин", "Дизель", "Электро"];
-const transmissionOptions = ["Автомат", "Механика"];
+});
 
 const applyFilters = () => {
-  getCars(filters.value);
   getFilters();
+  getCars(filters.value);
+
+  if (route.name !== "shop") {
+    router.push({ name: "shop" });
+  }
 };
 </script>
 

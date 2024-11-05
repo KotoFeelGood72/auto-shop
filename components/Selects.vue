@@ -5,10 +5,9 @@
       <p class="selected">{{ selectedOption?.value || placeholder }}</p>
       <Icons icon="line-md:chevron-down" class="chevron" />
     </div>
-    <!-- Список опций -->
     <ul v-if="isOpen" class="options">
       <li
-        v-for="option in options"
+        v-for="option in displayOptions"
         :key="option.key"
         class="option"
         :class="{ active: option.key === selectedOption?.key }"
@@ -21,11 +20,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 
 // Пропсы для компонента
 const props = defineProps<{
-  options: { key: string; value: string }[]; // Массив объектов с полями key и value
+  options?: { key: string; value: string }[] | string[]; // Поддержка массива объектов или строк
+  entries?: Record<string, string>; // Объект с парами ключ-значение
   placeholder: string;
 }>();
 
@@ -36,6 +36,31 @@ const emit = defineEmits(["update:modelValue"]);
 const isOpen = ref(false); // Состояние открытия/закрытия дропдауна
 const selectedOption = ref<{ key: string; value: string } | null>(null); // Текущий выбранный элемент
 const selectBox = ref<HTMLElement | null>(null); // Ссылка на дропдаун
+
+// Функция для преобразования массива строк в массив объектов { key, value }
+const normalizeOptions = (
+  options: string[] | { key: string; value: string }[]
+) => {
+  if (Array.isArray(options) && typeof options[0] === "string") {
+    // Если это массив строк, создаем ключи автоматически
+    return options.map((value, index) => ({ key: `option-${index}`, value }));
+  }
+  return options as { key: string; value: string }[];
+};
+
+// Выводимые опции - если передан entries, преобразуем его в массив, иначе используем options
+const displayOptions = computed(() => {
+  if (props.entries) {
+    return Object.entries(props.entries).map(([key, value]) => ({
+      key,
+      value,
+    }));
+  } else if (props.options) {
+    return normalizeOptions(props.options);
+  } else {
+    return [];
+  }
+});
 
 // Функция для открытия/закрытия dropdown
 const toggleDropdown = () => {
@@ -49,25 +74,22 @@ const selectOption = (option: { key: string; value: string }) => {
   emit("update:modelValue", { key: option.key, value: option.value }); // Эмитим и ключ, и значение
 };
 
-// Функция для закрытия dropdown при клике вне компонента
+//
 const handleClickOutside = (event: MouseEvent) => {
   if (selectBox.value && !selectBox.value.contains(event.target as Node)) {
     isOpen.value = false;
   }
 };
 
-// Функция для закрытия dropdown при скролле
 const handleScroll = () => {
   isOpen.value = false;
 };
 
-// Вешаем обработчики событий при монтировании компонента
 onMounted(() => {
   document.addEventListener("click", handleClickOutside);
   window.addEventListener("scroll", handleScroll);
 });
 
-// Удаляем обработчики событий при размонтировании компонента
 onBeforeUnmount(() => {
   document.removeEventListener("click", handleClickOutside);
   window.removeEventListener("scroll", handleScroll);
