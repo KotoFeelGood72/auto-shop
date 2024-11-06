@@ -20,35 +20,30 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount } from "vue";
+import { ref, computed, onMounted, watch, onBeforeUnmount } from "vue";
 
-// Пропсы для компонента
 const props = defineProps<{
-  options?: { key: string; value: string }[] | string[]; // Поддержка массива объектов или строк
-  entries?: Record<string, string>; // Объект с парами ключ-значение
+  options?: { key: any; value: any }[] | any[];
+  entries?: Record<any, any>;
   placeholder: string;
+  modelValue?: { key: any; value: any }; // Добавлено для начального значения
 }>();
 
-// Эмит для передачи данных в родительский компонент
 const emit = defineEmits(["update:modelValue"]);
 
-// Переменные состояния
-const isOpen = ref(false); // Состояние открытия/закрытия дропдауна
-const selectedOption = ref<{ key: string; value: string } | null>(null); // Текущий выбранный элемент
-const selectBox = ref<HTMLElement | null>(null); // Ссылка на дропдаун
+const isOpen = ref(false);
+const selectedOption = ref<{ key: any; value: any } | null>(null);
+const selectBox = ref<HTMLElement | null>(null);
 
-// Функция для преобразования массива строк в массив объектов { key, value }
 const normalizeOptions = (
   options: string[] | { key: string; value: string }[]
 ) => {
   if (Array.isArray(options) && typeof options[0] === "string") {
-    // Если это массив строк, создаем ключи автоматически
     return options.map((value, index) => ({ key: `option-${index}`, value }));
   }
   return options as { key: string; value: string }[];
 };
 
-// Выводимые опции - если передан entries, преобразуем его в массив, иначе используем options
 const displayOptions = computed(() => {
   if (props.entries) {
     return Object.entries(props.entries).map(([key, value]) => ({
@@ -62,34 +57,66 @@ const displayOptions = computed(() => {
   }
 });
 
-// Функция для открытия/закрытия dropdown
+// Функция для открытия/закрытия выпадающего списка
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
 };
 
 // Функция для выбора опции
 const selectOption = (option: { key: string; value: string }) => {
-  selectedOption.value = option; // Устанавливаем выбранный элемент
-  isOpen.value = false; // Закрываем дропдаун
-  emit("update:modelValue", { key: option.key, value: option.value }); // Эмитим и ключ, и значение
+  selectedOption.value = option;
+  isOpen.value = false;
+  emit("update:modelValue", { key: option.key, value: option.value });
 };
 
-//
+// Инициализация компонента
+onMounted(() => {
+  // Ищем соответствующий элемент в displayOptions по modelValue
+  if (props.modelValue) {
+    const matchingOption = displayOptions.value.find(
+      (option) => option.key === props.modelValue?.key
+    );
+    if (matchingOption) {
+      selectedOption.value = matchingOption;
+    }
+  }
+
+  // Добавляем слушатели для кликов вне компонента и скролла
+  document.addEventListener("click", handleClickOutside);
+  window.addEventListener("scroll", handleScroll);
+});
+
+// Обработчик клика вне компонента
 const handleClickOutside = (event: MouseEvent) => {
   if (selectBox.value && !selectBox.value.contains(event.target as Node)) {
     isOpen.value = false;
   }
 };
 
+// Закрытие выпадающего списка при скролле
 const handleScroll = () => {
   isOpen.value = false;
 };
 
-onMounted(() => {
-  document.addEventListener("click", handleClickOutside);
-  window.addEventListener("scroll", handleScroll);
-});
+// Слушаем изменения modelValue, чтобы обновлять selectedOption
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    if (newValue) {
+      const matchingOption = displayOptions.value.find(
+        (option) => option.key === newValue.key
+      );
+      if (matchingOption) {
+        selectedOption.value = matchingOption;
+      } else {
+        selectedOption.value = null; // Очищаем, если соответствие не найдено
+      }
+    }
+  },
+  { immediate: true }
+);
 
+// Убираем слушатели при уничтожении компонента
 onBeforeUnmount(() => {
   document.removeEventListener("click", handleClickOutside);
   window.removeEventListener("scroll", handleScroll);

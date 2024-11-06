@@ -1,7 +1,7 @@
 <template>
-  <div class="button" @click="sendEvent">
+  <div class="button" @click="sendEvent" :class="{ disabled: load }">
     <div class="btn-icon" v-if="load">
-      <Icons icon="line-md:loading-twotone-loop" />
+      <Icons icon="svg-spinners:ring-resize" :size="30" />
     </div>
     <p>{{ name }}</p>
   </div>
@@ -34,6 +34,11 @@ const sendEvent = () => {
   font-family: $font_4;
   transition: all 0.3s ease-in-out;
   @include flex-center;
+  gap: 2rem;
+
+  &.disabled {
+    pointer-events: none;
+  }
   &:hover {
     background-color: $blue;
   }
@@ -46,5 +51,9 @@ const sendEvent = () => {
       background-color: #29abe310;
     }
   }
+}
+
+.btn-icon {
+  @include flex-center;
 }
 </style>

@@ -32,10 +32,11 @@ import CardCar from "~/components/CardCar.vue";
 import SortDropdown from "~/components/SortDropdown.vue";
 import Pagination from "~/components/Pagination.vue";
 import Filters from "~/components/Filters.vue";
-import { useCarsStore, useCarsStoreRefs } from "~/store/useCarStore";
+import { useCarsStoreRefs } from "~/store/useCarStore";
+import { usePagination } from "~/composables/usePagination";
 
-const { cars, currentPage, isLoading } = useCarsStoreRefs();
-const { changePage } = useCarsStore();
+const { cars } = useCarsStoreRefs();
+const { currentPage, changePage } = usePagination();
 </script>
 
 <style scoped lang="scss">

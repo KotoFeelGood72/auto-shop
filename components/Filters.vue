@@ -4,11 +4,10 @@
     <div class="filter_grid">
       <div class="filter_col">
         <Selects
-          v-model="manufacturer"
+          v-model="filters.manufacturer_id"
           :entries="options?.manufacturers"
           placeholder="Марка"
         />
-
         <Selects
           v-model="filters.fuel_type"
           :options="options?.fuels"
@@ -21,7 +20,7 @@
       </div>
       <div class="filter_col">
         <Selects
-          v-model="filters.model"
+          v-model="filters.model_group"
           :entries="models"
           placeholder="Модель"
         />
@@ -30,10 +29,9 @@
           :options="options?.gearboxes"
           placeholder="Коробка"
         />
-
         <div class="filter_col__row">
-          <Inputs v-model="filters.engine_volume_from" place="Обьем от" />
-          <Inputs v-model="filters.engine_volume_to" place="Обьем до" />
+          <Inputs v-model="filters.engine_volume_from" place="Объем от" />
+          <Inputs v-model="filters.engine_volume_to" place="Объем до" />
         </div>
       </div>
       <div class="filter_col">
@@ -61,62 +59,52 @@
       </div>
     </div>
     <div class="filter-btn">
-      <Button @click="applyFilters" name="Показать результат" />
+      <Button
+        @click="() => carsStore.applyFilters(router, scrollEl)"
+        name="Показать результат"
+        :load="isLoading"
+      />
     </div>
+
+    <div ref="scrollEl" class="scrollEl"></div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
 import { useCarsStore, useCarsStoreRefs } from "~/store/useCarStore";
-import { useRouter, useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 
-const { getCars, getFilters, sendMark } = useCarsStore();
-const { options, models } = useCarsStoreRefs();
-
-const manufacturer = ref<any>(""); // Объявляем марку
+const carsStore = useCarsStore();
+const { options, models, filters, isLoading } = useCarsStoreRefs();
 const router = useRouter();
-const route = useRoute();
 
-const filters = ref({
-  model: "", // Изначально пусто
-  model_group: "",
-  manufacturer_id: "", // Этот параметр можно обновить при необходимости
-  year_from: "",
-  year_to: "",
-  fuel_type: "",
-  transmission: "",
-  mileage_from: "",
-  mileage_to: "",
-  engine_volume_from: "",
-  engine_volume_to: "",
-  price_from: "",
-  price_to: "",
-  colors: "",
+const scrollEl = ref<HTMLElement | null>(null);
+
+onMounted(() => {
+  carsStore.getCars(filters.value);
 });
 
-// Когда марка меняется, обновляем filters.manufacturer_id
-watch(manufacturer, async (newManufacturer) => {
-  if (newManufacturer) {
-    filters.value.manufacturer_id = newManufacturer.key; // Сохраняем только ключ марки в filters.manufacturer_id
-    try {
-      await sendMark({ manufacturers: newManufacturer.key });
-    } catch (error) {
-      console.error("Ошибка при получении моделей:", error);
+watch(
+  () => filters.value.manufacturer_id,
+  async (newManufacturerId) => {
+    if (newManufacturerId) {
+      try {
+        await carsStore.sendMark({ manufacturers: newManufacturerId?.key });
+      } catch (error) {
+        console.error("Ошибка при отправке данных о марке:", error);
+      }
     }
-  } else {
-    filters.value.manufacturer_id = ""; // Если марка сброшена, очищаем filters.manufacturer_id
   }
-});
-
-const applyFilters = () => {
-  getFilters();
-  getCars(filters.value);
-
-  if (route.name !== "shop") {
-    router.push({ name: "shop" });
-  }
-};
+);
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.filter_main {
+  position: relative;
+}
+
+.scrollEl {
+  position: absolute;
+  top: 100%;
+}
+</style>
