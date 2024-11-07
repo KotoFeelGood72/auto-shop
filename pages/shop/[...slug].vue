@@ -1,11 +1,11 @@
 <template>
-  <div class="cars" v-if="car"> 
+  <div class="cars" v-if="car">
     <div class="container">
       <div class="cars__head">
         <h1>{{ car.name }}, {{ car.year }}</h1>
         <div class="cars__param">
-          Объявление {{car.vehicleId}} от {{ formattedDate }}
-          <div class="eye"><Icons icon="mdi:eye" /> 9</div>
+          Объявление {{ car.vehicleId }} от {{ formattedDate }}
+          <div class="eye"><Icons icon="mdi:eye" /> {{ car.countSendCar }}</div>
         </div>
       </div>
       <div class="cars__main">
@@ -52,12 +52,12 @@
                   nextEl: `.next`,
                 }"
               >
-              <SwiperSlide
-                v-for="(image, i) in car.photos"
-                :key="'single-thumb-slide-' + i"
-              >
-                <img :src="image.path" :alt="image.code" class="full" />
-              </SwiperSlide>
+                <SwiperSlide
+                  v-for="(image, i) in car.photos"
+                  :key="'single-thumb-slide-' + i"
+                >
+                  <img :src="image.path" :alt="image.code" class="full" />
+                </SwiperSlide>
               </Swiper>
             </div>
             <div class="cars__nav">
@@ -78,15 +78,17 @@
           <ul>
             <li>
               <p>Год:</p>
-              <span>{{car.year}}</span>
+              <span>{{ car.year }}</span>
             </li>
             <li>
               <p>Возраст (лет):</p>
-              <span>{{car.age}}</span>
+              <span>{{ car.age }}</span>
             </li>
             <li>
               <p>Двигатель:</p>
-              <span>{{car.engineFuel}} ({{ car.engineVolumeLiters }} м³)</span>
+              <span
+                >{{ car.engineFuel }} ({{ car.engineVolumeLiters }} м³)</span
+              >
             </li>
             <li>
               <p>Мощность:</p>
@@ -98,15 +100,15 @@
             </li>
             <li>
               <p>Коробка передач:</p>
-              <span>{{car.gearbox}}</span>
+              <span>{{ car.gearbox }}</span>
             </li>
             <li>
               <p>Тип кузова:</p>
-              <span>{{car.body}}</span>
+              <span>{{ car.body }}</span>
             </li>
             <li>
               <p>Цвет:</p>
-              <span>{{car.color}}</span>
+              <span>{{ car.color }}</span>
             </li>
             <li>
               <p>Руль:</p>
@@ -118,12 +120,14 @@
             </li>
             <li>
               <p>Был в аренде:</p>
-              <span>{{ car.useRental ? 'Да' : 'Нет' }}</span>
+              <span>{{ car.useRental ? "Да" : "Нет" }}</span>
             </li>
           </ul>
         </div>
         <div class="cars__action">
-          <div class="cars__price">{{ formatPrice(car.summary.totalVladivostok) }}</div>
+          <div class="cars__price">
+            {{ formatPrice(car.summary.totalVladivostok) }}
+          </div>
           <div class="cars__action__btns">
             <Button
               name="Консультация бесплатно"
@@ -161,7 +165,7 @@ import { useRoute } from "vue-router";
 
 const { openModal } = useModalStore();
 const { getCarById } = useCarsStore();
-const {car} = useCarsStoreRefs()
+const { car } = useCarsStoreRefs();
 
 const thumbsSwiper = ref(null);
 const thumbsDirection = ref<any>("vertical");
@@ -169,9 +173,9 @@ const setThumbsSwiper = (swiper: any) => {
   thumbsSwiper.value = swiper;
 };
 
-const route = useRoute()
+const route = useRoute();
 
-const cars = ref<any>(null)
+const cars = ref<any>(null);
 
 // const car = ref<any>({
 //   price: "5 750 000",
@@ -186,41 +190,39 @@ const cars = ref<any>(null)
 //   ],
 // });
 
-
 const formattedDate = computed(() => {
   const date = new Date(car.value.registerDateTime);
-  return date.toLocaleDateString('ru-RU', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
-  }) ;
+  return date.toLocaleDateString("ru-RU", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
 });
 
 const formatPrice = (price: number) => {
-  return new Intl.NumberFormat('ru-RU', {
-    style: 'currency',
-    currency: 'RUB',
-    minimumFractionDigits: 0, 
-    maximumFractionDigits: 0, 
+  return new Intl.NumberFormat("ru-RU", {
+    style: "currency",
+    currency: "RUB",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
   }).format(price);
 };
 
 const formattedMileage = computed(() => {
-      const mileageStr = car.value.mileage.toString();
-      if (mileageStr.length === 5) {
-        // Форматирование для 5-значных чисел, разделение на две группы (2 и 3 числа)
-        return `${mileageStr.slice(0, 2)} ${mileageStr.slice(2)} км`;
-      } else if (mileageStr.length === 6) {
-        // Форматирование для 6-значных чисел, разделение на три группы (3 и 3 числа)
-        return `${mileageStr.slice(0, 3)} ${mileageStr.slice(3)} км`;
-      }
-      return `${mileageStr} км`; // На случай других длин числа
-    });
+  const mileageStr = car.value.mileage.toString();
+  if (mileageStr.length === 5) {
+    // Форматирование для 5-значных чисел, разделение на две группы (2 и 3 числа)
+    return `${mileageStr.slice(0, 2)} ${mileageStr.slice(2)} км`;
+  } else if (mileageStr.length === 6) {
+    // Форматирование для 6-значных чисел, разделение на три группы (3 и 3 числа)
+    return `${mileageStr.slice(0, 3)} ${mileageStr.slice(3)} км`;
+  }
+  return `${mileageStr} км`; // На случай других длин числа
+});
 
-
-onMounted(async() => {
-  car.value = await getCarById(String(route.params.slug))
-})
+onMounted(async () => {
+  car.value = await getCarById(String(route.params.slug));
+});
 </script>
 
 <style scoped lang="scss">
@@ -313,7 +315,9 @@ onMounted(async() => {
 
 .cars_slider {
   max-width: 52rem;
-  height: 36.5rem;
+  :deep(.swiper) {
+    height: 36.5rem;
+  }
   @include bp($point_2) {
     max-width: 100%;
     width: 100%;
@@ -398,15 +402,15 @@ onMounted(async() => {
   ul {
     display: flex;
     flex-direction: column;
-    gap: 1.6rem;
+    gap: 1.2rem;
     @include bp($point_2) {
       gap: 1rem;
     }
     li {
       @include flex-start;
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       gap: 0.8rem;
-      font-family: $font_3;
+      font-family: $font_2;
 
       p {
         color: #8b8b8b;

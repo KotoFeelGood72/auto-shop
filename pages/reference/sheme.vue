@@ -1,5 +1,5 @@
 <template>
-  <div class="sheme-page">
+  <div class="sheme-page" v-if="page">
     <section class="sheme">
       <div class="container">
         <div class="sheme_main">
@@ -12,14 +12,11 @@
                   <p>Шаг 1</p>
                 </div>
                 <div class="sheme_item__body">
-                  <div class="sheme_item__title">Выбираем автомобиль</div>
-                  <ul>
-                    <li>Марка, модель</li>
-                    <li>Год выпуска</li>
-                    <li>Пробег</li>
-                    <li>Желаемый бюджет</li>
-                    <li>Комплектация</li>
-                  </ul>
+                  <div class="sheme_item__title">{{ page.stepOne.title }}</div>
+                  <div
+                    class="sheme_item__list"
+                    v-html="page.stepOne.description"
+                  ></div>
                 </div>
               </div>
               <div class="sheme_item">
@@ -29,26 +26,12 @@
                 </div>
                 <div class="sheme_item__body">
                   <div class="sheme_item__title">
-                    Заключение договора, внесение первоначального взноса
+                    {{ page.stepTwo.title }}
                   </div>
-                  <ul>
-                    <li>
-                      <b>150.000 ₽</b> при стоимости авто до <b>2.000.000 ₽</b>
-                    </li>
-                    <li>
-                      <b>250.000 ₽</b> при стоимости авто от <b>2.000.000 ₽</b>
-                    </li>
-                    <li>
-                      <b>350.000 ₽</b> при стоимости авто от <b>3.000.000 ₽</b>
-                    </li>
-                    <li>
-                      <b>500.000 ₽</b> при стоимости авто от <b>5.000.000 ₽</b>
-                    </li>
-                    <li>
-                      <span class="blue">10%</span> от стоимости авто, если
-                      стоимость авто выше <b>7.000.000 ₽</b>
-                    </li>
-                  </ul>
+                  <div
+                    class="sheme_item__list"
+                    v-html="page.stepTwo.description"
+                  ></div>
                 </div>
               </div>
               <div class="sheme_item">
@@ -58,14 +41,12 @@
                 </div>
                 <div class="sheme_item__body">
                   <div class="sheme_item__title">
-                    Выезд наших специалистов на осмотр и диагностику авто:
+                    {{ page.stepThree.title }}
                   </div>
-                  <p>
-                    В случае обнаружения дефектов при диагностике и осмотре, не
-                    указанных продавцом, мы согласовываем другой автомобиль,
-                    который соответствует заявленным требованиям покупателя, и
-                    проводим осмотры до идеального результата
-                  </p>
+                  <div
+                    class="sheme_item__body__desc"
+                    v-html="page.stepThree.description"
+                  ></div>
                 </div>
               </div>
             </div>
@@ -77,12 +58,13 @@
                     <p>Шаг 4</p>
                   </div>
                   <div class="sheme_item__body">
-                    <div class="sheme_item__title">Бронь авто:</div>
-                    <p>
-                      Если авто соответствует всем требованиям, мы бронируем его
-                      и выставляем вам счет (инвойс), который необходимо
-                      оплатить в течении трёх дней
-                    </p>
+                    <div class="sheme_item__title">
+                      {{ page.stepFour.title }}
+                    </div>
+                    <div
+                      class="sheme_item__body__desc"
+                      v-html="page.stepFour.description"
+                    ></div>
                   </div>
                 </div>
                 <div class="sheme_item">
@@ -91,11 +73,13 @@
                     <p>Шаг 5</p>
                   </div>
                   <div class="sheme_item__body">
-                    <div class="sheme_item__title">Доставка:</div>
-                    <p>
-                      Авто доставляется на парковку в Южной Корее, где проходит
-                      подготовку к отправке во Владивосток
-                    </p>
+                    <div class="sheme_item__title">
+                      {{ page.stepFive.title }}
+                    </div>
+                    <div
+                      class="sheme_item__body__desc"
+                      v-html="page.stepFive.description"
+                    ></div>
                   </div>
                 </div>
                 <div class="sheme_item">
@@ -104,11 +88,13 @@
                     <p>Шаг 7</p>
                   </div>
                   <div class="sheme_item__body">
-                    <div class="sheme_item__title">Отправка в ваш регион:</div>
-                    <p>
-                      Когда автомобиль готов к отправке, мы подбираем надежную
-                      транспортную компанию, которая доставит в пункт назначения
-                    </p>
+                    <div class="sheme_item__title">
+                      {{ page.stepSeven.title }}
+                    </div>
+                    <div
+                      class="sheme_item__body__desc"
+                      v-html="page.stepSeven.description"
+                    ></div>
                   </div>
                 </div>
                 <div class="sheme_item">
@@ -117,8 +103,13 @@
                     <p>Шаг 8</p>
                   </div>
                   <div class="sheme_item__body">
-                    <div class="sheme_item__title">Получение авто:</div>
-                    <p>Вы получаете авто и пакет документов у себя в городе</p>
+                    <div class="sheme_item__title">
+                      {{ page.stepEight.title }}
+                    </div>
+                    <div
+                      class="sheme_item__body__desc"
+                      v-html="page.stepEight.description"
+                    ></div>
                   </div>
                 </div>
               </div>
@@ -128,11 +119,11 @@
                   <p>Шаг 6</p>
                 </div>
                 <div class="sheme_item__body">
-                  <div class="sheme_item__title">Оплата:</div>
-                  <p>
-                    По приходу авто во Владивосток, вы оплачиваете пошлину и
-                    услуги таможенного оформления (в рублях)
-                  </p>
+                  <div class="sheme_item__title">{{ page.stepSix.title }}</div>
+                  <div
+                    class="sheme_item__body__desc"
+                    v-html="page.stepSix.description"
+                  ></div>
                   <img class="sheme-bg" src="/img/sheme-car.png" alt="" />
                 </div>
               </div>
@@ -146,6 +137,21 @@
 
 <script setup lang="ts">
 import Action from "~/components/Action.vue";
+
+const page = ref<any>(null);
+
+const getSheme = async () => {
+  const { $main } = useNuxtApp();
+
+  try {
+    const response = await $main.get("/schem_of_work");
+    page.value = response.data;
+  } catch (error) {}
+};
+
+onMounted(() => {
+  getSheme();
+});
 </script>
 
 <style scoped lang="scss">
@@ -200,6 +206,10 @@ import Action from "~/components/Action.vue";
   }
 }
 
+:deep(.blue) {
+  color: $blue;
+}
+
 .sheme_item {
   background-color: $white;
   border-radius: 1rem;
@@ -235,10 +245,10 @@ import Action from "~/components/Action.vue";
 }
 
 .sheme_item__body {
-  p {
-    font-size: 1.6rem;
+  :deep(p) {
+    font-size: 1.4rem;
   }
-  ul {
+  :deep(ul) {
     display: flex;
     flex-direction: column;
     gap: 1.1rem;
@@ -246,7 +256,7 @@ import Action from "~/components/Action.vue";
       gap: 0.5rem;
     }
     li {
-      font-size: 1.6rem;
+      font-size: 1.4rem;
     }
   }
 }

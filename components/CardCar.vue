@@ -63,6 +63,7 @@ const formatPrice = (price: number) => {
 }
 .car_img {
   width: 100%;
+  height: 20rem;
 }
 
 .car_content {

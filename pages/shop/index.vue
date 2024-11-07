@@ -5,18 +5,22 @@
     </div>
     <section class="cars">
       <div class="container">
-        <div class="cars_head">
+        <div class="cars_head" v-if="cars?.total_count">
           <h2>Найдено: {{ cars?.total_count }} автомобилей</h2>
           <div class="cars_sort">
             <SortDropdown />
           </div>
         </div>
-        <ul class="cars_grid">
+        <ul class="cars_grid" v-if="cars?.cars">
           <li v-for="(car, i) in cars?.cars" :key="'cars-item-' + i">
             <CardCar :data="car" />
           </li>
         </ul>
+        <div class="placeholder" v-else>
+          <h3>Машин не найдено</h3>
+        </div>
         <Pagination
+          v-if="cars?.cars"
           :totalPages="34"
           :currentPage="currentPage"
           :pageSize="16"
@@ -76,5 +80,10 @@ const { currentPage, changePage } = usePagination();
       right: auto;
     }
   }
+}
+
+.placeholder {
+  @include flex-center;
+  padding: 5rem;
 }
 </style>

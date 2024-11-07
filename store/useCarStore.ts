@@ -37,19 +37,28 @@ export const useCarsStore = defineStore("cars", {
         ...filters,
       };
 
+      // Очищаем и извлекаем только необходимые значения (key) для фильтров
       const cleanedFilters = Object.fromEntries(
-        Object.entries(defaultFilters).filter(
-          ([, value]: [string, any]) =>
-            value !== null &&
-            value !== undefined &&
-            (typeof value === "string" ? value.trim() !== "" : true)
-        )
+        Object.entries(defaultFilters)
+          .filter(
+            ([, value]: [string, any]) =>
+              value !== null &&
+              value !== undefined &&
+              (typeof value === "string" ? value.trim() !== "" : true)
+          )
+          .map(([key, value]) => {
+            if (typeof value === "object" && value !== null && value.key) {
+              return [key, value.key]; // Используем только key из объекта
+            }
+            return [key, value];
+          })
       );
 
-      // Устанавливаем query параметры в URL, если передан router
+      // Обновляем только параметр page в URL, если передан router
       if (router) {
+        const updatedQuery = { page: cleanedFilters.page };
         router
-          .push({ query: cleanedFilters })
+          .push({ query: updatedQuery })
           .catch((err: any) => console.error(err));
       }
 
@@ -60,6 +69,7 @@ export const useCarsStore = defineStore("cars", {
         });
         this.cars = response.data;
       } catch (error) {
+        this.cars = null;
         console.error("Ошибка получения машин:", error);
       } finally {
         this.isLoading = false;
@@ -147,15 +157,6 @@ export const useCarsStore = defineStore("cars", {
       }
     },
 
-    // Новый метод для инициализации фильтров из query
-    initializeFiltersFromQuery(queryFilters: any) {
-      Object.keys(this.filters).forEach((key) => {
-        if (queryFilters[key]) {
-          this.filters[key] = queryFilters[key]; // Устанавливаем значение фильтра
-        }
-      });
-    },
-
     async applyFilters(router: any, scrollToElement: any) {
       this.isLoading = true;
       const activeFilters = { ...this.filters };
@@ -171,6 +172,7 @@ export const useCarsStore = defineStore("cars", {
         "engine_volume_to",
         "price_from",
         "price_to",
+        "colors",
       ]; // Добавьте сюда другие поля, если необходимо
 
       // Убираем пустые поля и извлекаем значения в зависимости от условий
@@ -201,14 +203,10 @@ export const useCarsStore = defineStore("cars", {
           })
       );
 
-      // Логируем для отладки
-      console.log("Cleaned Filters:", cleanedFilters);
-
       await this.getCars(cleanedFilters); // Вызываем API с отфильтрованными параметрами
 
-      // Обновляем query параметры
       router
-        .push({ query: cleanedFilters })
+        .push({ name: "shop", query: { page: this.currentPage } })
         .catch((err: any) => console.error(err));
 
       if (scrollToElement && scrollToElement.value) {
@@ -221,9 +219,9 @@ export const useCarsStore = defineStore("cars", {
       this.isLoading = false;
     },
   },
-  persist: {
-    storage: persistedState.localStorage,
-  },
+  // persist: {
+  //   storage: persistedState.localStorage,
+  // },
 });
 
 // Вызываем эту функцию при инициализации компонента

@@ -38,19 +38,19 @@
         <div class="filter_col__row">
           <Selects
             v-model="filters.year_from"
-            :entries="options?.years"
+            :entries="filteredYearsFrom"
             placeholder="Год от"
           />
           <Selects
             v-model="filters.year_to"
-            :entries="options?.years"
+            :entries="filteredYearsTo"
             placeholder="Год до"
           />
         </div>
         <Selects
           v-model="filters.colors"
           :options="options?.colors"
-          placeholder="Привод"
+          placeholder="Цвет"
         />
         <div class="filter_col__row">
           <Inputs v-model="filters.price_from" place="Цена от" />
@@ -64,6 +64,7 @@
         name="Показать результат"
         :load="isLoading"
       />
+      <div class="reset" @click="resetFilters()">Сбросить фильтры</div>
     </div>
 
     <div ref="scrollEl" class="scrollEl"></div>
@@ -71,6 +72,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed, ref, watch, onMounted } from "vue";
 import { useCarsStore, useCarsStoreRefs } from "~/store/useCarStore";
 import { useRouter } from "vue-router";
 
@@ -82,6 +84,27 @@ const scrollEl = ref<HTMLElement | null>(null);
 
 onMounted(() => {
   carsStore.getCars(filters.value);
+});
+
+const resetFilters = () => {
+  carsStore.getCars();
+};
+
+// Фильтруем годы для "Год от" в зависимости от "Год до"
+const filteredYearsFrom = computed(() => {
+  const selectedYearTo = filters.value.year_to?.value || filters.value.year_to;
+  return options.value?.years?.filter(
+    (year: any) => !selectedYearTo || Number(year) <= selectedYearTo
+  );
+});
+
+// Фильтруем годы для "Год до" в зависимости от "Год от"
+const filteredYearsTo = computed(() => {
+  const selectedYearFrom =
+    filters.value.year_from?.value || filters.value.year_from;
+  return options.value?.years?.filter(
+    (year: any) => !selectedYearFrom || Number(year) >= selectedYearFrom
+  );
 });
 
 watch(
@@ -106,5 +129,17 @@ watch(
 .scrollEl {
   position: absolute;
   top: 100%;
+}
+
+.reset {
+  padding: 2rem;
+  font-size: 1.4rem;
+  cursor: pointer;
+  font-family: $font_3;
+  @include flex-center;
+  color: $gray;
+  &:hover {
+    color: $blue;
+  }
 }
 </style>
