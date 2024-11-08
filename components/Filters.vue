@@ -14,8 +14,18 @@
           placeholder="Тип топлива"
         />
         <div class="filter_col__row">
-          <Inputs v-model="filters.mileage_from" place="Пробег от" />
-          <Inputs v-model="filters.mileage_to" place="Пробег до" />
+          <Inputs
+            v-model="filters.mileage_from"
+            place="Пробег от"
+            class="mileage-input"
+            :maxLength="12"
+          />
+          <Inputs
+            v-model="filters.mileage_to"
+            place="Пробег до"
+            class="mileage-input"
+            :maxLength="12"
+          />
         </div>
       </div>
       <div class="filter_col">
@@ -30,8 +40,16 @@
           placeholder="Коробка"
         />
         <div class="filter_col__row">
-          <Inputs v-model="filters.engine_volume_from" place="Объем от" />
-          <Inputs v-model="filters.engine_volume_to" place="Объем до" />
+          <Inputs
+            v-model="filters.engine_volume_from"
+            place="Объем от"
+            :maxLength="5"
+          />
+          <Inputs
+            v-model="filters.engine_volume_to"
+            place="Объем до"
+            :maxLength="5"
+          />
         </div>
       </div>
       <div class="filter_col">
@@ -53,8 +71,12 @@
           placeholder="Цвет"
         />
         <div class="filter_col__row">
-          <Inputs v-model="filters.price_from" place="Цена от" />
-          <Inputs v-model="filters.price_to" place="Цена до" />
+          <Inputs
+            v-model="filters.price_from"
+            place="Цена от"
+            :maxLength="18"
+          />
+          <Inputs v-model="filters.price_to" place="Цена до" :maxLength="18" />
         </div>
       </div>
     </div>
@@ -86,8 +108,26 @@ onMounted(() => {
   carsStore.getCars(filters.value);
 });
 
+const initialFilters = {
+  manufacturer_id: null,
+  fuel_type: null,
+  mileage_from: null,
+  mileage_to: null,
+  model_group: null,
+  transmission: null,
+  engine_volume_from: null,
+  engine_volume_to: null,
+  year_from: null,
+  year_to: null,
+  colors: null,
+  price_from: null,
+  price_to: null,
+};
+
 const resetFilters = () => {
-  carsStore.getCars();
+  // Сброс значений фильтров
+  Object.assign(filters.value, initialFilters);
+  carsStore.getCars(); // Запрос обновленных данных после сброса
 };
 
 // Фильтруем годы для "Год от" в зависимости от "Год до"

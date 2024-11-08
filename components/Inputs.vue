@@ -1,24 +1,31 @@
 <template>
   <div class="input">
     <div class="input__w">
-      <input :type="type" :placeholder="place" v-model="localValue" />
+      <input
+        :type="type"
+        :placeholder="place"
+        v-model="localValue"
+        :maxlength="maxLength"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps, defineEmits } from "vue";
+import { computed, defineProps, defineEmits, withDefaults } from "vue";
 
 const props = withDefaults(
   defineProps<{
     type?: string;
-    modelValue?: string;
+    modelValue?: any;
     place?: string;
+    maxLength?: number; // Добавляем новый пропс для максимального количества символов
   }>(),
   {
     type: "text",
     modelValue: "",
     place: "",
+    maxLength: 10000, // Значение по умолчанию
   }
 );
 
@@ -40,5 +47,18 @@ input {
   width: 100%;
   border-radius: 1rem;
   background-color: $white;
+}
+
+.mileage-input {
+  position: relative;
+  &:after {
+    content: "КМ";
+    position: absolute;
+    top: 55%;
+    transform: translateY(-50%);
+    right: 2rem;
+    font-size: 1.4rem;
+    color: $gray;
+  }
 }
 </style>

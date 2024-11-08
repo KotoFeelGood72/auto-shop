@@ -19,7 +19,7 @@ export default defineNuxtConfig({
     "nuxt-swiper",
     "@pinia/nuxt",
     "@pinia-plugin-persistedstate/nuxt",
-    "vue-yandex-maps/nuxt"
+    "vue-yandex-maps/nuxt",
   ],
   runtimeConfig: {
     public: {
@@ -35,9 +35,30 @@ export default defineNuxtConfig({
     },
   },
   yandexMaps: {
-    apikey: 'de0ee812-515f-4988-a580-639be65741a6',
+    apikey: "de0ee812-515f-4988-a580-639be65741a6",
   },
   app: {
-    pageTransition: { name: 'page', mode: 'out-in' }
+    pageTransition: { name: "page", mode: "out-in" },
+    head: {
+      title: "Название сайта", // Заголовок страницы
+      meta: [
+        {
+          name: "description",
+          content: "Описание сайта для SEO и пользователей",
+        },
+        { name: "keywords", content: "Ключевые слова, разделенные запятыми" },
+        { property: "og:title", content: "Название сайта" },
+        { property: "og:description", content: "Описание сайта для соцсетей" },
+        { property: "og:type", content: "website" },
+        {
+          property: "og:url",
+          content: process.env.BASE_URL || "https://example.com",
+        },
+        { property: "og:image", content: "/path/to/your-image.jpg" }, // изображение для превью
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        { charset: "utf-8" },
+      ],
+      link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+    },
   },
 });

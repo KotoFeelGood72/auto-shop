@@ -24,17 +24,18 @@ import ModalFilter from "./components/ModalFilter.vue";
 import ModalCallback from "./components/ModalCallback.vue";
 import ModalCar from "./components/ModalCar.vue";
 import { useModalStore, useModalStoreRefs } from "~/store/useModalStore";
-import {useCarsStore} from '~/store/useCarStore'
+import { useCarsStore } from "~/store/useCarStore";
+import { useContactsStore } from "./store/useContactsStore";
 import Burger from "./components/Burger.vue";
 import { useRoute } from "vue-router";
 import { Fancybox } from "@fancyapps/ui";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
-
 const route = useRoute();
 const { closeAllModals } = useModalStore();
 const { getCars, getOption } = useCarsStore();
 const { modals } = useModalStoreRefs();
+const { fetchContacts } = useContactsStore();
 
 const isModalActive = computed(() => {
   return Object.values(modals.value).some((isActive) => isActive);
@@ -50,13 +51,13 @@ watch(
 Fancybox.bind("[data-fancybox]");
 
 onMounted(async () => {
-  await getCars()
-  await getOption()
-})
+  // await getCars();
+  await getOption();
+  await fetchContacts();
+});
 </script>
 
 <style lang="scss">
-
 .page-enter-active,
 .page-leave-active {
   transition: all 0.4s;
@@ -158,7 +159,7 @@ a {
 
 .page-enter-active,
 .page-leave-active {
-  transition: all 0.3s ease-in-out;
+  transition: all 0.5s ease-in-out;
 }
 .page-enter-from,
 .page-leave-to {

@@ -52,13 +52,17 @@
                   <img src="@/assets/img/icon-wt.svg" alt="" />
                 </div>
               </a>
-              <a target="_blank" href="/">
+              <a
+                target="_blank"
+                :href="'tel:' + contacts?.contact_info?.phone"
+                v-if="contacts"
+              >
                 <div class="header_social__icon">
                   <img src="@/assets/img/icon-phone.svg" alt="" />
                 </div>
                 <div class="header_social__txt">
                   <p>Телефон:</p>
-                  <span>8 (800) 000-00-00</span>
+                  <span>{{ contacts.contact_info.phone }}</span>
                 </div>
               </a>
             </div>
@@ -107,7 +111,9 @@
 import { ref, onMounted } from "vue";
 import Button from "./Button.vue";
 import { useModalStore } from "~/store/useModalStore";
+import { useContactsStoreRefs } from "~/store/useContactsStore";
 
+const { contacts } = useContactsStoreRefs();
 // Массив с данными для навигации
 const nav = ref([
   { name: "О компании", link: "/about", icon: "/img/nav-1.svg" },
@@ -130,7 +136,6 @@ const nav = ref([
 
 const { openModal } = useModalStore();
 
-// Время для Владивостока, Москвы и Сеула
 const vladivostokTime = ref<any>("");
 const moscowTime = ref<any>("");
 const seoulTime = ref<any>("");
@@ -292,7 +297,9 @@ const hideSubmenu = () => {
 .header_social {
   a {
     &:not(:last-child) {
-      display: none;
+      @include bp($point_2) {
+        display: none;
+      }
     }
   }
 }

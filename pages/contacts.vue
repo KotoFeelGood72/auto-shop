@@ -1,5 +1,5 @@
 <template>
-  <section class="contacts">
+  <section class="contacts" v-if="contacts">
     <div class="container">
       <div class="contacts_main__w">
         <h1>Контакты</h1>
@@ -16,24 +16,33 @@
               </li>
               <li>
                 <p>Часы работы</p>
-                <span>пн-вс: 09.00-22.00</span>
+                <span
+                  >{{ contacts.working_hours.days }}
+                  {{ contacts.working_hours.days }}</span
+                >
               </li>
               <li>
                 <ul>
                   <li>
-                    <a href="#" target="_blank">
+                    <a
+                      :href="'tel:' + contacts.contact_info.phone"
+                      target="_blank"
+                    >
                       <div class="item__icon">
                         <img src="/img/f7_phone.svg" alt="" />
                       </div>
-                      <p>+7 918 123 45 67</p>
+                      <p>{{ contacts.contact_info.phone }}</p>
                     </a>
                   </li>
                   <li>
-                    <a href="#" target="_blank">
+                    <a
+                      :href="'mailto:' + contacts.contact_info.email"
+                      target="_blank"
+                    >
                       <div class="item__icon">
                         <img src="/img/fluent_mail-24-regular.svg" alt="" />
                       </div>
-                      <p>example@gmail.com</p>
+                      <p>{{ contacts.contact_info.email }}</p>
                     </a>
                   </li>
                 </ul>
@@ -84,6 +93,10 @@
 
 <script setup lang="ts">
 import { ref, shallowRef } from "vue";
+import {
+  useContactsStore,
+  useContactsStoreRefs,
+} from "~/store/useContactsStore";
 import type { YMap } from "@yandex/ymaps3-types";
 import {
   YandexMap,
@@ -98,6 +111,8 @@ import {
 
 // Инициализация карты
 const map = shallowRef<null | YMap>(null);
+
+const { contacts } = useContactsStoreRefs();
 
 // Центр карты по умолчанию (Краснодар)
 const mapCenter = ref<[number, number]>([38.97695, 45.03547]);

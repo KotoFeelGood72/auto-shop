@@ -4,62 +4,22 @@
       <div class="container">
         <div class="shield__head">
           <h1>Наши гарантии</h1>
-          <div class="shield_head__subtitle">
-            <span>15</span> лет успешной работы
-          </div>
+          <div class="shield_head__subtitle" v-html="page?.title"></div>
         </div>
         <div class="shield__body">
-          <div class="shield_body__item">
+          <div
+            v-for="(items, index) in chunkedItems"
+            :key="index"
+            class="shield_body__item"
+          >
             <ul class="shield_body__contents">
-              <li>
-                <p>Финансовая прозрачность сделки</p>
-                <span
-                  >Все условия покупки авто и ответственность сторон
-                  закрепляются в договоре. Оплата производится за конкретный
-                  автомобиль, выбранный в Корее. В квитанции прописывается
-                  марка, модель и VIN номер приобретенного авто.</span
-                >
-              </li>
-              <li>
-                <p>Безопасное хранение в порту владивостока</p>
-                <span
-                  >Во время таможенной процедуры автомобиль находится на складе
-                  временного хранения под круглосуточной охраной. При выгрузке в
-                  порту производится детальная фото-опись, служащая
-                  доказательством в случае любых споров.</span
-                >
+              <li v-for="item in items" :key="item.title">
+                <p>{{ item.title }}</p>
+                <span v-html="item.description"></span>
               </li>
             </ul>
             <div class="shield_body_img">
-              <img src="/img/shield-item-1.png" alt="" />
-            </div>
-          </div>
-          <div class="shield_body__item">
-            <ul class="shield_body__contents">
-              <li>
-                <p>Надежная доставка авто из кореи</p>
-                <span
-                  >По территории Кореи автомобили транспортируются на автовозах.
-                  По прибытию в порт покупатель получает детальный фотоотчет. По
-                  морю машины перевозятся на специализированных судах типа
-                  Ro-Ro, которые имеют горизонтальную аппарель и позволяют
-                  отказаться от использования кранов. Груз полностью
-                  застрахован.</span
-                >
-              </li>
-              <li>
-                <p>Технические гарантии</p>
-                <span
-                  >Все автомобили, которые поступают на продажу в Корее,
-                  проходят комплексную проверку экспертом. Также к машине
-                  прилагается технический паспорт с отметками о прохождении ТО и
-                  истории пробега. На основе всего этого можно сделать вывод и
-                  принять правильное решение.</span
-                >
-              </li>
-            </ul>
-            <div class="shield_body_img">
-              <img src="/img/shield-item-2.png" alt="" />
+              <img :src="getImageSrc(index)" alt="" />
             </div>
           </div>
         </div>
@@ -68,7 +28,49 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref, onMounted, computed } from "vue";
+
+const page = ref<any>(null);
+
+const getQuarantees = async () => {
+  const { $main } = useNuxtApp();
+
+  try {
+    const response = await $main.get("/guarantees");
+    page.value = response.data;
+  } catch (error) {
+    console.error("Ошибка при загрузке данных:", error);
+  }
+};
+
+onMounted(() => {
+  getQuarantees();
+});
+
+// Функция для возврата пути к изображению в зависимости от индекса
+const getImageSrc = (index: number) => {
+  const images = [
+    "/img/shield-item-1.png",
+    "/img/shield-item-2.png",
+    "/img/shield-item-1.png",
+    "/img/shield-item-2.png",
+  ];
+  return images[index] || "/img/shield-item-1.png"; // если индекс за пределами, используем первый
+};
+
+// Разделить contentItem на группы по два элемента
+const chunkedItems = computed(() => {
+  if (!page.value?.contentItem) return [];
+  const items = page.value.contentItem;
+  const chunkSize = 2;
+  const result = [];
+  for (let i = 0; i < items.length; i += chunkSize) {
+    result.push(items.slice(i, i + chunkSize));
+  }
+  return result;
+});
+</script>
 
 <style scoped lang="scss">
 .shield {
@@ -91,7 +93,7 @@
   @include bp($point_2) {
     font-size: 2.2rem;
   }
-  span {
+  :deep(span) {
     color: $blue;
   }
 }
